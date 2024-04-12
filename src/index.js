@@ -18,5 +18,5 @@ const testTask = Task({
 });
 
 const testProject = Project("Test Project Name");
-testProject.addTask(testTask);
+testProject.addTask(testTask.getTask());
 console.log(testProject.getTasks());
