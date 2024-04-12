@@ -22,4 +22,6 @@ const testTask = Task(
 console.log(testTask);
 
 const testProject = Project({ name: "Test Project Name" });
-console.log(testProject.getProjectName());
+testProject.addTask(testTask);
+console.log(testProject.getTasks());
+console.log(Array.isArray(testProject.getTasks()));

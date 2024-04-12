@@ -1,6 +1,12 @@
 function Project(obj) {
   const tasks = [];
   // add task
+  const addTask = (newTask) => {
+    console.log("inside Project.addTask", newTask);
+    tasks.push(newTask);
+  };
+
+  const getTasks = () => tasks;
 
   // delete task
   // update task
@@ -9,9 +15,9 @@ function Project(obj) {
 
   const getProjectName = () => projectName;
 
-  console.log("inside Project constructor: obj is: ",obj);
+  //console.log("inside Project constructor: obj is: ", obj);
 
-  return { getProjectName };
+  return { addTask, getTasks, getProjectName };
 }
 
 export default Project;
