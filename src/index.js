@@ -19,4 +19,10 @@ const testTask = Task({
 
 const testProject = Project("Test Project Name");
 testProject.addTask(testTask.getTask());
+
+testTask.editTask({ title: "New Title" });
+
+console.log(testTask.getTaskId());
+testProject.deleteTask(testTask.getTaskId());
+
 console.log(testProject.getTasks());
