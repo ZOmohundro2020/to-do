@@ -18,8 +18,7 @@ function Project(name) {
   const getTasks = () => tasks;
 
   const setProjectName = (name) => (projectName = name);
-  const getProject = () => {
-    console.log(getTasks());
+  const getProject = () => {    
     return {
       projectName,
       projectId,
