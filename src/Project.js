@@ -1,8 +1,11 @@
 function Project(name) {
+  const generateId = () => Math.random().toString(36).substring(2, 9);
+
   let projectName = name;
+  const projectId = generateId();
   const tasks = [];
-  
-  const addTask = (newTask) => {    
+
+  const addTask = (newTask) => {
     tasks.push(newTask);
   };
 
@@ -15,9 +18,16 @@ function Project(name) {
   const getTasks = () => tasks;
 
   const setProjectName = (name) => (projectName = name);
-  const getProjectName = () => projectName;  
+  const getProject = () => {
+    console.log(getTasks());
+    return {
+      projectName,
+      projectId,
+      tasks,
+    };
+  };
 
-  return { addTask, deleteTask, getTasks, getProjectName, setProjectName };
+  return { addTask, deleteTask, getTasks, setProjectName, getProject };
 }
 
 export default Project;
