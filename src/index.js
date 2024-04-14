@@ -12,7 +12,7 @@ document.body.appendChild(newDiv);
 const testTask = Task({
   title: "Test Task",
   description: "Testing My Task Object",
-  dueDate: "None",
+  dueDate: undefined,
   priority: "Normal",
   notes: "",
 });
@@ -22,7 +22,6 @@ testProject.addTask(testTask.getTask());
 
 testTask.editTask({ title: "New Title" });
 
-console.log(testTask.getTaskId());
-testProject.deleteTask(testTask.getTaskId());
+//testProject.deleteTask(testTask.getTaskId());
 
 console.log(testProject.getTasks());

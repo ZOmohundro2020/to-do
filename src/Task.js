@@ -1,7 +1,7 @@
-function Task({ title, description, dueDate, priority, notes }) {
+function Task({ title, description, dueDate = new Date(), priority, notes }) {
   const generateId = () => Math.random().toString(36).substring(2, 9);
 
-  let task = { title, description, dueDate, priority, notes, id: generateId() };  
+  let task = { title, description, dueDate, priority, notes, id: generateId() };
 
   const getTask = () => task;
   const getTaskId = () => task.id;
