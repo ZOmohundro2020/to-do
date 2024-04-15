@@ -31,9 +31,8 @@ const funProject = Project("Fun Project");
 projectList.addProject(defaultProject.getProject());
 projectList.addProject(funProject.getProject());
 
-
-
 const view = View();
 
 console.log(projectList.getProjects());
 view.updateProjectView(projectList.getProjects());
+view.updateTaskView(defaultProject.getProject());

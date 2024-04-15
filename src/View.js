@@ -4,8 +4,7 @@ function View() {
 
   const updateProjectView = (projects) => {
     sidebarDiv.innerHTML = "";
-    mainContentDiv.innerHTML = "";
-    
+
     projects.forEach((element) => {
       console.log(element);
       const newProjectDiv = document.createElement("div");
@@ -13,22 +12,23 @@ function View() {
       const newProjectBtn = document.createElement("button");
       newProjectBtn.innerText = element.projectName;
 
-      
       sidebarDiv.appendChild(newProjectBtn);
-
-      const newUl = document.createElement("ul");
-      element.tasks.forEach((task) => {
-        const newLi = document.createElement("li");
-        newLi.innerText = `${task.title} - ${task.description}`;
-        newUl.appendChild(newLi);
-      });
-
-      
-      mainContentDiv.appendChild(newUl);
     });
   };
 
-  return { updateProjectView };
+  const updateTaskView = (project) => {
+    mainContentDiv.innerHTML = "";
+
+    const newUl = document.createElement("ul");
+    project.tasks.forEach((task) => {
+      const newLi = document.createElement("li");
+      newLi.innerText = `${task.title} - ${task.description}`;
+
+      newUl.appendChild(newLi);
+      mainContentDiv.appendChild(newUl);
+    });
+  };
+  return { updateProjectView, updateTaskView };
 }
 
 export default View;
