@@ -1,20 +1,20 @@
 function View() {
-  const updateView = () => {
-    const newDiv = document.createElement("div");
-    const newPara = document.createElement("p");
-    newPara.textContent = "hello world";
-
-    newDiv.appendChild(newPara);
-    document.body.appendChild(newDiv);
-  };
+  const sidebarDiv = document.getElementById("sidebar");
+  const mainContentDiv = document.getElementById("main-content");
 
   const updateProjectView = (projects) => {
+    sidebarDiv.innerHTML = "";
+    mainContentDiv.innerHTML = "";
+    
     projects.forEach((element) => {
       console.log(element);
       const newProjectDiv = document.createElement("div");
       newProjectDiv.className = "project";
-      const newProjectH3 = document.createElement("h3");
-      newProjectH3.innerText = element.projectName;
+      const newProjectBtn = document.createElement("button");
+      newProjectBtn.innerText = element.projectName;
+
+      
+      sidebarDiv.appendChild(newProjectBtn);
 
       const newUl = document.createElement("ul");
       element.tasks.forEach((task) => {
@@ -23,14 +23,12 @@ function View() {
         newUl.appendChild(newLi);
       });
 
-      newProjectDiv.appendChild(newProjectH3);
-      newProjectDiv.appendChild(newUl);
-
-      document.body.appendChild(newProjectDiv);
+      
+      mainContentDiv.appendChild(newUl);
     });
   };
 
-  return { updateView, updateProjectView };
+  return { updateProjectView };
 }
 
 export default View;

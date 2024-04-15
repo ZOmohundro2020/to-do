@@ -25,25 +25,15 @@ const projectList = ProjectList();
 const defaultProject = Project("Default");
 defaultProject.addTask(testTask.getTask());
 defaultProject.addTask(testTask2.getTask());
-//console.log(defaultProject.getProject());
+
+const funProject = Project("Fun Project");
+
 projectList.addProject(defaultProject.getProject());
+projectList.addProject(funProject.getProject());
 
-console.log(projectList.getProjects());
 
-const testProject = Project("Test Project Name");
-testProject.addTask(testTask.getTask());
-
-testTask.editTask({ title: "New Title" });
-
-//testProject.deleteTask(testTask.getTaskId());
-
-//console.log(testProject.getTasks());
-
-// const tempProjectObj = defaultProject.getProject();
-// console.log("tempProjectObj: ", tempProjectObj);
-// projectList.deleteProject(tempProjectObj.projectId);
 
 const view = View();
-view.updateView();
+
 console.log(projectList.getProjects());
 view.updateProjectView(projectList.getProjects());
