@@ -20,6 +20,14 @@ const testTask2 = Task({
   notes: "",
 });
 
+const funTask = Task({
+  title: "A fun Task",
+  description: "Play games!",
+  dueDate: undefined,
+  priority: "Normal",
+  notes: "",
+});
+
 const projectList = ProjectList();
 
 const defaultProject = Project("Default");
@@ -27,6 +35,7 @@ defaultProject.addTask(testTask.getTask());
 defaultProject.addTask(testTask2.getTask());
 
 const funProject = Project("Fun Project");
+funProject.addTask(funTask.getTask());
 
 projectList.addProject(defaultProject.getProject());
 projectList.addProject(funProject.getProject());
@@ -35,4 +44,4 @@ const view = View();
 
 console.log(projectList.getProjects());
 view.updateProjectView(projectList.getProjects());
-view.updateTaskView(defaultProject.getProject());
+//view.updateTaskView(defaultProject.getProject());

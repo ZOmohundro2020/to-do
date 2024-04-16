@@ -2,6 +2,10 @@ function View() {
   const sidebarDiv = document.getElementById("sidebar");
   const mainContentDiv = document.getElementById("main-content");
 
+  const handleProjectBtn = (project) => {
+    updateTaskView(project);
+  };
+
   const updateProjectView = (projects) => {
     sidebarDiv.innerHTML = "";
 
@@ -11,6 +15,9 @@ function View() {
       newProjectDiv.className = "project";
       const newProjectBtn = document.createElement("button");
       newProjectBtn.innerText = element.projectName;
+      newProjectBtn.addEventListener("click", () => {
+        handleProjectBtn(element);
+      });
 
       sidebarDiv.appendChild(newProjectBtn);
     });
