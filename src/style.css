@@ -21,3 +21,9 @@ body, html {
   flex: 1;
   padding: 20px;
 }
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
