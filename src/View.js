@@ -8,6 +8,8 @@ function View() {
 
   const handleNewTaskBtn = () => console.log("Add new task");
 
+  const handleDeleteTask = () => console.log("Delete task");
+
   const updateProjectView = (projects) => {
     sidebarDiv.innerHTML = "";
 
@@ -86,6 +88,31 @@ function View() {
     });
     priorityInput.value = task.priority || ""; // If priority is not provided, initialize with empty string
     taskDiv.appendChild(priorityInput);
+
+    // button container
+    const buttonContainer = document.createElement("div");
+    buttonContainer.className = "button-container";
+
+    // delete task button
+    const deleteTaskBtn = document.createElement("button");
+    deleteTaskBtn.innerText = "Delete Task";
+    deleteTaskBtn.className = "delete-task-btn";
+    deleteTaskBtn.addEventListener("click", handleDeleteTask);
+    buttonContainer.appendChild(deleteTaskBtn);
+
+    // save task button
+    const saveTaskBtn = document.createElement("button");
+    saveTaskBtn.innerText = "Save";
+    saveTaskBtn.className = "save-task-btn";
+    buttonContainer.appendChild(saveTaskBtn);
+
+    // cancel task button
+    const cancelTaskEditBtn = document.createElement("button");
+    cancelTaskEditBtn.innerText = "Cancel";
+    cancelTaskEditBtn.className = "cancel-task-btn";
+    buttonContainer.appendChild(cancelTaskEditBtn);
+
+    taskDiv.appendChild(buttonContainer);
 
     taskLi.parentNode.replaceChild(taskDiv, taskLi);
   };
