@@ -6,6 +6,8 @@ function View() {
     updateTaskView(project);
   };
 
+  const handleNewTaskBtn = () => console.log("Add new task");
+
   const updateProjectView = (projects) => {
     sidebarDiv.innerHTML = "";
 
@@ -34,6 +36,13 @@ function View() {
       newUl.appendChild(newLi);
       mainContentDiv.appendChild(newUl);
     });
+
+    const newTaskLi = document.createElement("li");
+    const newTaskBtn = document.createElement("button");
+    newTaskBtn.innerText = "Add New Task";
+    newTaskBtn.addEventListener("click", handleNewTaskBtn);
+    newTaskLi.appendChild(newTaskBtn);
+    newUl.appendChild(newTaskLi);
   };
   return { updateProjectView, updateTaskView };
 }
