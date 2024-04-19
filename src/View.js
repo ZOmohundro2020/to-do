@@ -2,15 +2,28 @@ function View() {
   const sidebarDiv = document.getElementById("sidebar");
   const mainContentDiv = document.getElementById("main-content");
 
+  let storedProjects = [];
+
   const handleProjectBtn = (project) => {
     updateTaskView(project);
   };
 
   const handleNewTaskBtn = () => console.log("Add new task");
 
-  const handleDeleteTask = () => console.log("Delete task");
+  const handleDeleteTask = (task) => {
+    console.log("Delete task", task);
+    // to do: find a way to ping the project and then delete the task from it. then rerender.
+    console.log(storedProjects);
+    console.log(task.owner);
+    const result = storedProjects.findIndex(
+      (obj) => obj["projectId"] === task.owner
+    );
+    console.log(result);
+    console.log(storedProjects[result]);
+  };
 
   const updateProjectView = (projects) => {
+    storedProjects = projects;
     sidebarDiv.innerHTML = "";
 
     projects.forEach((element) => {
@@ -51,11 +64,11 @@ function View() {
   };
 
   const editTask = (task) => {
-    //replace existing DOM element with full details
+    // Replace existing DOM element with full details
     const taskLi = document.getElementById(task.id);
     console.log("edit task clicked", task);
 
-    // container div
+    // Container div
     const taskDiv = document.createElement("div");
     taskDiv.classList.add("task-details");
 
@@ -97,7 +110,7 @@ function View() {
     const deleteTaskBtn = document.createElement("button");
     deleteTaskBtn.innerText = "Delete Task";
     deleteTaskBtn.className = "delete-task-btn";
-    deleteTaskBtn.addEventListener("click", handleDeleteTask);
+    deleteTaskBtn.addEventListener("click", () => handleDeleteTask(task));
     buttonContainer.appendChild(deleteTaskBtn);
 
     // save task button

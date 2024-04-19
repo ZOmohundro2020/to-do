@@ -31,10 +31,17 @@ const funTask = Task({
 const projectList = ProjectList();
 
 const defaultProject = Project("Default");
-defaultProject.addTask(testTask.getTask());
+
+// most current implementation of adding a task
+const taskToAdd = testTask.getTask();
+const taskOwner = defaultProject.addTask(taskToAdd);
+testTask.setTaskOwner(taskOwner);
+
+// older
 defaultProject.addTask(testTask2.getTask());
 
 const funProject = Project("Fun Project");
+//older
 funProject.addTask(funTask.getTask());
 
 projectList.addProject(defaultProject.getProject());

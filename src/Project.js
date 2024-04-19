@@ -7,6 +7,7 @@ function Project(name) {
 
   const addTask = (newTask) => {
     tasks.push(newTask);
+    return projectId;
   };
 
   const deleteTask = (taskId) => {
@@ -18,11 +19,12 @@ function Project(name) {
   const getTasks = () => tasks;
 
   const setProjectName = (name) => (projectName = name);
-  const getProject = () => {    
+  const getProject = () => {
     return {
       projectName,
       projectId,
       tasks,
+      deleteTask,
     };
   };
 
