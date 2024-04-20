@@ -4,7 +4,7 @@ import Project from "./Project";
 import ProjectList from "./ProjectList";
 import View from "./View";
 
-const testTask = Task({
+const testTask = new Task({
   title: "Test Task",
   description: "Testing My Task Object",
   dueDate: undefined,
@@ -30,25 +30,26 @@ const funTask = Task({
 
 const projectList = ProjectList();
 
-const defaultProject = Project("Default");
+const defaultProject = new Project("Default");
 
 // most current implementation of adding a task
-const taskToAdd = testTask.getTask();
-const taskOwner = defaultProject.addTask(taskToAdd);
+const taskOwner = defaultProject.addTask(testTask);
 testTask.setTaskOwner(taskOwner);
 
 // older
-defaultProject.addTask(testTask2.getTask());
+//defaultProject.addTask(testTask2.getTask());
 
-const funProject = Project("Fun Project");
+//const funProject = Project("Fun Project");
 //older
-funProject.addTask(funTask.getTask());
+//funProject.addTask(funTask.getTask());
 
-projectList.addProject(defaultProject.getProject());
-projectList.addProject(funProject.getProject());
+projectList.addProject(defaultProject);
+//projectList.addProject(funProject.getProject());
 
 const view = View();
 
 console.log(projectList.getProjects());
 view.updateProjectView(projectList.getProjects());
 //view.updateTaskView(defaultProject.getProject());
+
+// to do: try to refactor everything with this new constructor pattern.

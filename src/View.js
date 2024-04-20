@@ -27,11 +27,12 @@ function View() {
     sidebarDiv.innerHTML = "";
 
     projects.forEach((element) => {
-      console.log(element);
+      const projectDetails = element.getProject();
+      console.log("in projects foreach", element);
       const newProjectDiv = document.createElement("div");
       newProjectDiv.className = "project";
       const newProjectBtn = document.createElement("button");
-      newProjectBtn.innerText = element.projectName;
+      newProjectBtn.innerText = projectDetails.projectName;
       newProjectBtn.addEventListener("click", () => {
         handleProjectBtn(element);
       });
@@ -42,12 +43,16 @@ function View() {
 
   const updateTaskView = (project) => {
     mainContentDiv.innerHTML = "";
+    console.log("inside updateTaskView, project is: ", project);
+    console.log(project.getTasks()[0].getTask());
 
     const newUl = document.createElement("ul");
-    project.tasks.forEach((task) => {
+    project.getTasks().forEach((task) => {
+      const taskDetails = task.getTask();
+      console.log("inside for each loop, task is: ", taskDetails);
       const newLi = document.createElement("li");
       newLi.id = task.id;
-      newLi.innerText = `${task.title} - ${task.description}`;
+      newLi.innerText = `${taskDetails.title} - ${taskDetails.description}`;
       newLi.addEventListener("click", () => editTask(task));
 
       newUl.appendChild(newLi);
@@ -64,6 +69,8 @@ function View() {
   };
 
   const editTask = (task) => {
+    const taskDetails = task.getTask();
+
     // Replace existing DOM element with full details
     const taskLi = document.getElementById(task.id);
     console.log("edit task clicked", task);
@@ -74,19 +81,19 @@ function View() {
 
     // Title input field
     const titleInput = document.createElement("input");
-    titleInput.value = task.title;
+    titleInput.value = taskDetails.title;
     taskDiv.appendChild(titleInput);
 
     // Description input field
     const descriptionInput = document.createElement("textarea");
-    descriptionInput.value = task.description || ""; // If description is not provided, initialize with empty string
+    descriptionInput.value = taskDetails.description || ""; // If description is not provided, initialize with empty string
     descriptionInput.placeholder = "Description";
     taskDiv.appendChild(descriptionInput);
 
     // Due date input field
     const dueDateInput = document.createElement("input");
     dueDateInput.type = "date";
-    dueDateInput.value = task.dueDate || ""; // If due date is not provided, initialize with empty string
+    dueDateInput.value = taskDetails.dueDate || ""; // If due date is not provided, initialize with empty string
     dueDateInput.placeholder = "Due Date";
     taskDiv.appendChild(dueDateInput);
 

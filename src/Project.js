@@ -6,6 +6,8 @@ function Project(name) {
   const tasks = [];
 
   const addTask = (newTask) => {
+    console.log("in addTask, newTask is: ", newTask);
+    console.log(newTask.getTask());
     tasks.push(newTask);
     return projectId;
   };
