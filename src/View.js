@@ -11,27 +11,31 @@ function View() {
   const handleNewTaskBtn = () => console.log("Add new task");
 
   const handleDeleteTask = (task) => {
-    console.log("Delete task", task);
-    // to do: find a way to ping the project and then delete the task from it. then rerender.
-    console.log(storedProjects);
-    console.log(task.owner);
-    const result = storedProjects.findIndex(
-      (obj) => obj["projectId"] === task.owner
-    );
-    console.log(result);
-    console.log(storedProjects[result]);
+    console.log("Deleting task", task);
+
+    const owningProject = storedProjects
+      .getProjects()
+      .find((project) => project.getProject().projectId === task.owner);
+
+    if (owningProject) {
+      owningProject.deleteTask(task.id);
+      updateTaskView(owningProject);
+    } else {
+      console.error("Owning project not found for task", task);
+    }
   };
 
   const updateProjectView = (projects) => {
+    console.log("in updateprojectview ", projects.getProjects());
     storedProjects = projects;
     sidebarDiv.innerHTML = "";
 
-    projects.forEach((element) => {
-      console.log(element);
+    projects.getProjects().forEach((element) => {
+      console.log("element.getproject()", element.getProject());
       const newProjectDiv = document.createElement("div");
       newProjectDiv.className = "project";
       const newProjectBtn = document.createElement("button");
-      newProjectBtn.innerText = element.projectName;
+      newProjectBtn.innerText = element.getProject().projectName;
       newProjectBtn.addEventListener("click", () => {
         handleProjectBtn(element);
       });
@@ -42,9 +46,10 @@ function View() {
 
   const updateTaskView = (project) => {
     mainContentDiv.innerHTML = "";
+    const projectDetails = project.getProject();
 
     const newUl = document.createElement("ul");
-    project.tasks.forEach((task) => {
+    projectDetails.tasks.forEach((task) => {
       const newLi = document.createElement("li");
       newLi.id = task.id;
       newLi.innerText = `${task.title} - ${task.description}`;

@@ -31,24 +31,20 @@ const funTask = Task({
 const projectList = ProjectList();
 
 const defaultProject = Project("Default");
-
-// most current implementation of adding a task
-const taskToAdd = testTask.getTask();
-const taskOwner = defaultProject.addTask(taskToAdd);
-testTask.setTaskOwner(taskOwner);
-
-// older
-defaultProject.addTask(testTask2.getTask());
-
 const funProject = Project("Fun Project");
-//older
-funProject.addTask(funTask.getTask());
 
-projectList.addProject(defaultProject.getProject());
-projectList.addProject(funProject.getProject());
+const addTestTask = (task, project) => {
+  const taskToAdd = task.getTask();
+  const taskOwner = project.addTask(taskToAdd);
+  task.setTaskOwner(taskOwner);
+};
+
+addTestTask(testTask, defaultProject);
+addTestTask(testTask2, defaultProject);
+addTestTask(funTask, funProject);
+
+projectList.addProject(defaultProject);
+projectList.addProject(funProject);
 
 const view = View();
-
-console.log(projectList.getProjects());
-view.updateProjectView(projectList.getProjects());
-//view.updateTaskView(defaultProject.getProject());
+view.updateProjectView(projectList);
