@@ -15,7 +15,7 @@ function View() {
 
     const owningProject = storedProjects
       .getProjects()
-      .find((project) => project.getProject().projectId === task.owner);
+      .find((project) => project.getProjectDetails().projectId === task.owner);
 
     if (owningProject) {
       owningProject.deleteTask(task.id);
@@ -26,16 +26,14 @@ function View() {
   };
 
   const updateProjectView = (projects) => {
-    console.log("in updateprojectview ", projects.getProjects());
     storedProjects = projects;
     sidebarDiv.innerHTML = "";
 
     projects.getProjects().forEach((element) => {
-      console.log("element.getproject()", element.getProject());
       const newProjectDiv = document.createElement("div");
       newProjectDiv.className = "project";
       const newProjectBtn = document.createElement("button");
-      newProjectBtn.innerText = element.getProject().projectName;
+      newProjectBtn.innerText = element.getProjectDetails().projectName;
       newProjectBtn.addEventListener("click", () => {
         handleProjectBtn(element);
       });
@@ -46,7 +44,7 @@ function View() {
 
   const updateTaskView = (project) => {
     mainContentDiv.innerHTML = "";
-    const projectDetails = project.getProject();
+    const projectDetails = project.getProjectDetails();
 
     const newUl = document.createElement("ul");
     projectDetails.tasks.forEach((task) => {
