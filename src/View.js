@@ -4,18 +4,22 @@ function View() {
 
   let storedProjects = [];
 
+  // helper function to find the Project that a Task belongs to
+  const getOwningProjectFromTaskDetails = (task) => {
+    const owningProject = storedProjects
+      .getProjects()
+      .find((project) => project.getProjectDetails().projectId === task.owner);
+    return owningProject;
+  };
+
   const handleProjectBtn = (project) => {
     updateTaskView(project);
   };
 
   const handleNewTaskBtn = () => console.log("Add new task");
 
-  const handleDeleteTask = (task) => {
-    console.log("Deleting task", task);
-
-    const owningProject = storedProjects
-      .getProjects()
-      .find((project) => project.getProjectDetails().projectId === task.owner);
+  const handleDeleteTask = (task) => {    
+    const owningProject = getOwningProjectFromTaskDetails(task);
 
     if (owningProject) {
       owningProject.deleteTask(task.id);
@@ -23,6 +27,11 @@ function View() {
     } else {
       console.error("Owning project not found for task", task);
     }
+  };
+
+  const handleCancel = (task) => {    
+    const taskOwner = getOwningProjectFromTaskDetails(task);    
+    updateTaskView(taskOwner);
   };
 
   const updateProjectView = (projects) => {
@@ -122,10 +131,11 @@ function View() {
     saveTaskBtn.className = "save-task-btn";
     buttonContainer.appendChild(saveTaskBtn);
 
-    // cancel task button
+    // cancel task editing button
     const cancelTaskEditBtn = document.createElement("button");
     cancelTaskEditBtn.innerText = "Cancel";
     cancelTaskEditBtn.className = "cancel-task-btn";
+    cancelTaskEditBtn.addEventListener("click", () => handleCancel(task));
     buttonContainer.appendChild(cancelTaskEditBtn);
 
     taskDiv.appendChild(buttonContainer);
