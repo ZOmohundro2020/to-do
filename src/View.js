@@ -18,7 +18,7 @@ function View() {
 
   const handleNewTaskBtn = () => console.log("Add new task");
 
-  const handleDeleteTask = (task) => {    
+  const handleDeleteTask = (task) => {
     const owningProject = getOwningProjectFromTaskDetails(task);
 
     if (owningProject) {
@@ -29,9 +29,21 @@ function View() {
     }
   };
 
-  const handleCancel = (task) => {    
-    const taskOwner = getOwningProjectFromTaskDetails(task);    
+  const handleCancel = (task) => {
+    const taskOwner = getOwningProjectFromTaskDetails(task);
     updateTaskView(taskOwner);
+  };
+
+  const handleSaveTask = ({
+    task,
+    titleInput: { value: title },
+    descriptionInput: { value: description },
+    dueDateInput: { value: dueDate },
+    priorityInput: { value: priority },
+  }) => {
+    const taskInputs = { title, description, dueDate, priority };
+    console.log(taskInputs);
+    console.log(task);
   };
 
   const updateProjectView = (projects) => {
@@ -98,7 +110,9 @@ function View() {
     // Due date input field
     const dueDateInput = document.createElement("input");
     dueDateInput.type = "date";
-    dueDateInput.value = task.dueDate || ""; // If due date is not provided, initialize with empty string
+    console.log("task.duedate is: ", task.dueDate);
+    console.log(task.dueDate instanceof Date);
+    dueDateInput.value = task.dueDate.toISOString().split("T")[0] || "";
     dueDateInput.placeholder = "Due Date";
     taskDiv.appendChild(dueDateInput);
 
@@ -129,6 +143,15 @@ function View() {
     const saveTaskBtn = document.createElement("button");
     saveTaskBtn.innerText = "Save";
     saveTaskBtn.className = "save-task-btn";
+    saveTaskBtn.addEventListener("click", () =>
+      handleSaveTask({
+        task,
+        titleInput,
+        descriptionInput,
+        dueDateInput,
+        priorityInput,
+      })
+    );
     buttonContainer.appendChild(saveTaskBtn);
 
     // cancel task editing button
