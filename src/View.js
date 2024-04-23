@@ -43,7 +43,11 @@ function View() {
   }) => {
     const taskInputs = { title, description, dueDate, priority };
     console.log(taskInputs);
-    console.log(task);
+    const owningProject = getOwningProjectFromTaskDetails(task);
+    console.log(task.id);
+    const actualTaskObject = owningProject.getTask(task.id);
+    console.log(actualTaskObject);
+    actualTaskObject.editTask();
   };
 
   const updateProjectView = (projects) => {
@@ -108,6 +112,7 @@ function View() {
     taskDiv.appendChild(descriptionInput);
 
     // Due date input field
+    // NEED TO FIX DATE BEHAVIOR
     const dueDateInput = document.createElement("input");
     dueDateInput.type = "date";
     console.log("task.duedate is: ", task.dueDate);

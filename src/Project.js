@@ -17,6 +17,18 @@ function Project(name) {
 
   const getTasks = () => tasks;
 
+  const getTask = (taskId) => {
+    console.log("Tasks:", tasks);
+    console.log("Looking for taskId:", taskId);
+    const foundTask = tasks.find((task) => task.id === taskId);
+    console.log("Found task:", foundTask);
+    return foundTask;
+  };
+
+  // TO DO: Issue is that I'm not storing the actual task object in tasks. 
+  // I'm storing task.getTask() which is just the details.
+
+
   const setProjectName = (name) => (projectName = name);
   const getProjectDetails = () => {
     return {
@@ -26,7 +38,14 @@ function Project(name) {
     };
   };
 
-  return { addTask, deleteTask, getTasks, setProjectName, getProjectDetails };
+  return {
+    addTask,
+    deleteTask,
+    getTasks,
+    getTask,
+    setProjectName,
+    getProjectDetails,
+  };
 }
 
 export default Project;

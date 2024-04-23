@@ -1,7 +1,7 @@
 function Task({ title, description, dueDate = new Date(), priority, notes }) {
   const generateId = () => Math.random().toString(36).substring(2, 9);
 
-  const setTaskOwner = (projectId) => {    
+  const setTaskOwner = (projectId) => {
     task.owner = projectId;
   };
 
@@ -12,7 +12,7 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
     priority,
     notes,
     id: generateId(),
-    owner: null,    
+    owner: null,
   };
 
   const getTask = () => task;
@@ -26,6 +26,7 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
     if (dueDate !== undefined) task.dueDate = dueDate;
     if (priority !== undefined) task.priority = priority;
     if (notes !== undefined) task.notes = notes;
+    console.log("task edited");
   };
 
   return { getTask, getTaskId, editTask, setTaskOwner, getTaskOwner };
