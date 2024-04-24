@@ -34,7 +34,7 @@ const defaultProject = Project("Default");
 const funProject = Project("Fun Project");
 
 const addTestTask = (task, project) => {
-  const taskToAdd = task.getTask();
+  const taskToAdd = task; //.getTask();
   const taskOwner = project.addTask(taskToAdd);
   task.setTaskOwner(taskOwner);
 };

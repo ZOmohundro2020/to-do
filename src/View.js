@@ -47,7 +47,13 @@ function View() {
     console.log(task.id);
     const actualTaskObject = owningProject.getTask(task.id);
     console.log(actualTaskObject);
-    actualTaskObject.editTask();
+    actualTaskObject.editTask({
+      title: taskInputs.title,
+      description: taskInputs.description,
+      dueDate: taskInputs.dueDate,
+      priority: taskInputs.priority,
+    });
+    updateTaskView(owningProject);
   };
 
   const updateProjectView = (projects) => {
@@ -72,7 +78,7 @@ function View() {
     const projectDetails = project.getProjectDetails();
 
     const newUl = document.createElement("ul");
-    projectDetails.tasks.forEach((task) => {
+    projectDetails.tasksDetailsArray.forEach((task) => {
       const newLi = document.createElement("li");
       newLi.id = task.id;
       newLi.innerText = `${task.title} - ${task.description}`;
@@ -117,7 +123,7 @@ function View() {
     dueDateInput.type = "date";
     console.log("task.duedate is: ", task.dueDate);
     console.log(task.dueDate instanceof Date);
-    dueDateInput.value = task.dueDate.toISOString().split("T")[0] || "";
+    dueDateInput.value = new Date(task.dueDate); //task.dueDate.toISOString().split("T")[0] || "";
     dueDateInput.placeholder = "Due Date";
     taskDiv.appendChild(dueDateInput);
 

@@ -3,45 +3,53 @@ function Project(name) {
 
   let projectName = name;
   const projectId = generateId();
-  const tasks = [];
+
+  // one array stores task details, one stores the actual task objects themselves
+  const tasksDetailsArray = [];
+  const tasksObjectsArray = [];
 
   const addTask = (newTask) => {
-    tasks.push(newTask);
+    // console.log(newTask);
+    // console.log(newTask.getTask());
+    tasksDetailsArray.push(newTask.getTask());
+    tasksObjectsArray.push(newTask);
     return projectId;
   };
 
   const deleteTask = (taskId) => {
-    const result = tasks.findIndex((obj) => obj["id"] === taskId);
-    tasks.splice(result, 1);
+    const result = tasksDetailsArray.findIndex((obj) => obj["id"] === taskId);
+    tasksDetailsArray.splice(result, 1);
+    tasksObjectsArray.splice(result, 1);
   };
 
-  const getTasks = () => tasks;
+  const getTasksDetails = () => tasksDetailsArray;
+  const getTasksObjects = () => tasksObjectsArray;
 
   const getTask = (taskId) => {
-    console.log("Tasks:", tasks);
+    console.log("Tasks:", tasksDetailsArray);
     console.log("Looking for taskId:", taskId);
-    const foundTask = tasks.find((task) => task.id === taskId);
+    const foundTask = tasksDetailsArray.findIndex((task) => task.id === taskId);
     console.log("Found task:", foundTask);
-    return foundTask;
+    return tasksObjectsArray[foundTask];
   };
 
-  // TO DO: Issue is that I'm not storing the actual task object in tasks. 
+  // TO DO: Issue is that I'm not storing the actual task object in tasksDetailsArray.
   // I'm storing task.getTask() which is just the details.
-
 
   const setProjectName = (name) => (projectName = name);
   const getProjectDetails = () => {
     return {
       projectName,
       projectId,
-      tasks,
+      tasksDetailsArray,
     };
   };
 
   return {
     addTask,
     deleteTask,
-    getTasks,
+    getTasksDetails,
+    getTasksObjects,
     getTask,
     setProjectName,
     getProjectDetails,
