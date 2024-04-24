@@ -26,15 +26,9 @@ function Project(name) {
   const getTasksObjects = () => tasksObjectsArray;
 
   const getTask = (taskId) => {
-    console.log("Tasks:", tasksDetailsArray);
-    console.log("Looking for taskId:", taskId);
     const foundTask = tasksDetailsArray.findIndex((task) => task.id === taskId);
-    console.log("Found task:", foundTask);
     return tasksObjectsArray[foundTask];
   };
-
-  // TO DO: Issue is that I'm not storing the actual task object in tasksDetailsArray.
-  // I'm storing task.getTask() which is just the details.
 
   const setProjectName = (name) => (projectName = name);
   const getProjectDetails = () => {
