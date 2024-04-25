@@ -23,8 +23,7 @@ function View() {
     return htmlDate;
   };
 
-  // another date helper function to deal with UTC
-
+  // another date helper function to deal with UTC dates
   function parseDateString(dateString) {
     const dateOnlyRegex =
       /^([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])))$/;
@@ -42,7 +41,7 @@ function View() {
     updateTaskView(project);
   };
 
-  const handleNewTaskBtn = () => console.log("Add new task");
+  const handleNewTaskBtn = () => console.log("Add new task button");
 
   const handleDeleteTask = (task) => {
     const owningProject = getOwningProjectFromTaskDetails(task);
@@ -68,14 +67,7 @@ function View() {
     priorityInput: { value: priority },
   }) => {
     const taskInputs = { title, description, dueDate, priority };
-
-    // TO DO: Need to modify this dueDate input to be the correct date.
-    // Currently 1 day offset. Must be UTC issue.
-
-    //taskInputs.dueDate = new Date(taskInputs.dueDate);
-    taskInputs.dueDate = parseDateString(taskInputs.dueDate);
-    console.log(taskInputs.dueDate);
-    console.log("taskInputs in handleSaveTask: ", taskInputs);
+    taskInputs.dueDate = parseDateString(taskInputs.dueDate);    
     const owningProject = getOwningProjectFromTaskDetails(task);
     const actualTaskObject = owningProject.getTask(task.id);
     actualTaskObject.editTask({

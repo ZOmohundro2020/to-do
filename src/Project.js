@@ -9,8 +9,6 @@ function Project(name) {
   const tasksObjectsArray = [];
 
   const addTask = (newTask) => {
-    // console.log(newTask);
-    // console.log(newTask.getTask());
     tasksDetailsArray.push(newTask.getTask());
     tasksObjectsArray.push(newTask);
     return projectId;

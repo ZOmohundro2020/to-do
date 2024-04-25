@@ -26,7 +26,7 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
     if (dueDate !== undefined) task.dueDate = dueDate;
     if (priority !== undefined) task.priority = priority;
     if (notes !== undefined) task.notes = notes;
-    console.log("task edited");
+    console.log(`${title} edited`);
   };
 
   return { getTask, getTaskId, editTask, setTaskOwner, getTaskOwner };

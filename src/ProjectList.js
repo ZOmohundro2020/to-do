@@ -3,10 +3,8 @@ function ProjectList() {
 
   const addProject = (project) => projects.push(project);
 
-  const deleteProject = (projectId) => {
-    console.log("projectId: ", projectId);
-    const result = projects.findIndex((obj) => obj["id"] === projectId);
-    console.log(result);
+  const deleteProject = (projectId) => {    
+    const result = projects.findIndex((obj) => obj["id"] === projectId);    
     projects.splice(result, 1);
   };
 
