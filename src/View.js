@@ -15,17 +15,28 @@ function View() {
   // helper function to return HTML date
   const HTMLdate = (dateInput) => {
     const date = new Date(dateInput);
-
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const day = ("0" + date.getDate()).slice(-2);
     const year = date.getFullYear();
-
     const htmlDate = year + "-" + month + "-" + day;
-
-    console.log("Date: " + htmlDate);
 
     return htmlDate;
   };
+
+  // another date helper function to deal with UTC
+
+  function parseDateString(dateString) {
+    const dateOnlyRegex =
+      /^([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])))$/;
+    if (dateOnlyRegex.test(dateString)) {
+      const utcDate = new Date(dateString);
+      const localDate = new Date(
+        utcDate.getTime() + utcDate.getTimezoneOffset() * 60000
+      );
+      return localDate;
+    }
+    return new Date(dateString);
+  }
 
   const handleProjectBtn = (project) => {
     updateTaskView(project);
@@ -58,9 +69,11 @@ function View() {
   }) => {
     const taskInputs = { title, description, dueDate, priority };
 
-    // TO DO: Need to modify this dueDate input to be the correct date. Currently 1 day offset. Must be UTC issue.
+    // TO DO: Need to modify this dueDate input to be the correct date.
+    // Currently 1 day offset. Must be UTC issue.
 
-    taskInputs.dueDate = new Date(taskInputs.dueDate);
+    //taskInputs.dueDate = new Date(taskInputs.dueDate);
+    taskInputs.dueDate = parseDateString(taskInputs.dueDate);
     console.log(taskInputs.dueDate);
     console.log("taskInputs in handleSaveTask: ", taskInputs);
     const owningProject = getOwningProjectFromTaskDetails(task);
@@ -136,12 +149,10 @@ function View() {
     taskDiv.appendChild(descriptionInput);
 
     // Due date input field
-    // NEED TO FIX DATE BEHAVIOR
     const dueDateInput = document.createElement("input");
     dueDateInput.type = "date";
     console.log("task.duedate is: ", task.dueDate);
     const convertedDate = HTMLdate(task.dueDate);
-    //console.log(task.dueDate instanceof Date);
     dueDateInput.value = convertedDate;
     taskDiv.appendChild(dueDateInput);
 
@@ -172,19 +183,12 @@ function View() {
     const saveTaskBtn = document.createElement("button");
     saveTaskBtn.innerText = "Save";
     saveTaskBtn.className = "save-task-btn";
-    console.log({
-      task,
-      titleInput,
-      descriptionInput,
-      dueDateInput,
-      priorityInput,
-    });
     saveTaskBtn.addEventListener("click", () =>
       handleSaveTask({
         task,
         titleInput,
         descriptionInput,
-        dueDateInput, //: "test", //new Date(dueDateInput.value),
+        dueDateInput,
         priorityInput,
       })
     );
