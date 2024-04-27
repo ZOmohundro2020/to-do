@@ -1,8 +1,12 @@
+import Task from "./Task";
+
 function View() {
   const sidebarDiv = document.getElementById("sidebar");
   const mainContentDiv = document.getElementById("main-content");
 
+  // Store project information for access inside of View
   let storedProjects = [];
+  let activeProject;
 
   // helper function to find the Project that a Task belongs to
   const getOwningProjectFromTaskDetails = (task) => {
@@ -41,8 +45,20 @@ function View() {
     updateTaskView(project);
   };
 
-  const handleNewTaskBtn = () => console.log("Add new task button");
-
+  const handleNewTaskBtn = () => {
+    console.log("Add new task button");
+    const newTestingTask = Task({
+      title: "A testing Task",
+      description: "Test new!",
+      dueDate: undefined,
+      priority: "Normal",
+      notes: "",
+    });
+    const newTask = activeProject.addTask(newTestingTask);
+    newTestingTask.setTaskOwner(newTask);
+    //updateTaskView(activeProject);
+    editTask(newTestingTask);
+  };
   const handleDeleteTask = (task) => {
     const owningProject = getOwningProjectFromTaskDetails(task);
 
@@ -67,7 +83,7 @@ function View() {
     priorityInput: { value: priority },
   }) => {
     const taskInputs = { title, description, dueDate, priority };
-    taskInputs.dueDate = parseDateString(taskInputs.dueDate);    
+    taskInputs.dueDate = parseDateString(taskInputs.dueDate);
     const owningProject = getOwningProjectFromTaskDetails(task);
     const actualTaskObject = owningProject.getTask(task.id);
     actualTaskObject.editTask({
@@ -97,6 +113,7 @@ function View() {
   };
 
   const updateTaskView = (project) => {
+    activeProject = project;
     mainContentDiv.innerHTML = "";
     const projectDetails = project.getProjectDetails();
 
@@ -123,7 +140,10 @@ function View() {
   const editTask = (task) => {
     // Replace existing DOM element with full details
     const taskLi = document.getElementById(task.id);
+    console.log(taskLi === null);
     console.log("edit task clicked", task);
+    console.log(task.getTask().id);
+    console.log(taskLi);
 
     // Container div
     const taskDiv = document.createElement("div");
