@@ -57,7 +57,7 @@ function View() {
     const newTask = activeProject.addTask(newTestingTask);
     newTestingTask.setTaskOwner(newTask);
     //updateTaskView(activeProject);
-    editTask(newTestingTask);
+    editTask(newTestingTask.getTask());
   };
   const handleDeleteTask = (task) => {
     const owningProject = getOwningProjectFromTaskDetails(task);
@@ -118,6 +118,7 @@ function View() {
     const projectDetails = project.getProjectDetails();
 
     const newUl = document.createElement("ul");
+    newUl.id = "task-list";
     projectDetails.tasksDetailsArray.forEach((task) => {
       const newLi = document.createElement("li");
       newLi.id = task.id;
@@ -130,6 +131,7 @@ function View() {
 
     // Add new task functionality
     const newTaskLi = document.createElement("li");
+    newTaskLi.id = "new-task-button-li";
     const newTaskBtn = document.createElement("button");
     newTaskBtn.innerText = "Add New Task";
     newTaskBtn.addEventListener("click", handleNewTaskBtn);
@@ -138,12 +140,10 @@ function View() {
   };
 
   const editTask = (task) => {
+    console.log("in editTask, task priority is: ", task.priority);
     // Replace existing DOM element with full details
     const taskLi = document.getElementById(task.id);
-    console.log(taskLi === null);
-    console.log("edit task clicked", task);
-    console.log(task.getTask().id);
-    console.log(taskLi);
+    const taskNewButton = document.getElementById("new-task-button-li");
 
     // Container div
     const taskDiv = document.createElement("div");
@@ -171,6 +171,13 @@ function View() {
     // Priority input field
     const priorityInput = document.createElement("select");
     const priorityOptions = ["Low", "Medium", "High"];
+    // const priorityPlaceholder = document.createElement("option");
+    // priorityPlaceholder.text = "Priority";
+    // priorityPlaceholder.value = "Priority";
+    // priorityPlaceholder.disabled = true;
+    // priorityPlaceholder.hidden = true;
+    // priorityPlaceholder.setAttribute("selected", "selected");
+    // priorityInput.appendChild(priorityPlaceholder);
     priorityOptions.forEach((option) => {
       const priorityOption = document.createElement("option");
       priorityOption.text = option;
@@ -215,7 +222,12 @@ function View() {
 
     taskDiv.appendChild(buttonContainer);
 
-    taskLi.parentNode.replaceChild(taskDiv, taskLi);
+    // attach to DOM in different ways depending on new task or edit task
+    if (taskLi === null) {
+      taskNewButton.parentNode.replaceChild(taskDiv, taskNewButton);
+    } else {
+      taskLi.parentNode.replaceChild(taskDiv, taskLi);
+    }
   };
 
   return { updateProjectView, updateTaskView, editTask };

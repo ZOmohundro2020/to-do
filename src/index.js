@@ -8,7 +8,7 @@ const testTask = Task({
   title: "Test Task",
   description: "Testing My Task Object",
   dueDate: undefined,
-  priority: "Normal",
+  priority: "medium",
   notes: "",
 });
 
@@ -16,7 +16,7 @@ const testTask2 = Task({
   title: "Task 2",
   description: "Still Testing",
   dueDate: undefined,
-  priority: "Normal",
+  priority: "low",
   notes: "",
 });
 
@@ -24,7 +24,7 @@ const funTask = Task({
   title: "A fun Task",
   description: "Play games!",
   dueDate: undefined,
-  priority: "Normal",
+  priority: "high",
   notes: "",
 });
 
