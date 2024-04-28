@@ -57,7 +57,7 @@ function View() {
     const newTask = activeProject.addTask(newTestingTask);
     newTestingTask.setTaskOwner(newTask);
     //updateTaskView(activeProject);
-    editTask(newTestingTask.getTask());
+    editTask(newTestingTask.getTask(), true);
   };
   const handleDeleteTask = (task) => {
     const owningProject = getOwningProjectFromTaskDetails(task);
@@ -70,8 +70,9 @@ function View() {
     }
   };
 
-  const handleCancel = (task) => {
+  const handleCancel = (task, isNewTask = false) => {
     const taskOwner = getOwningProjectFromTaskDetails(task);
+    if (isNewTask) handleDeleteTask(task);
     updateTaskView(taskOwner);
   };
 
@@ -139,11 +140,15 @@ function View() {
     newUl.appendChild(newTaskLi);
   };
 
-  const editTask = (task) => {
-    console.log("in editTask, task priority is: ", task.priority);
+  const editTask = (task, isNewTask = false) => {
     // Replace existing DOM element with full details
-    const taskLi = document.getElementById(task.id);
-    const taskNewButton = document.getElementById("new-task-button-li");
+
+    let attachmentPoint;
+    if (isNewTask) {
+      attachmentPoint = document.getElementById("new-task-button-li");
+    } else {
+      attachmentPoint = document.getElementById(task.id);
+    }
 
     // Container div
     const taskDiv = document.createElement("div");
@@ -217,17 +222,14 @@ function View() {
     const cancelTaskEditBtn = document.createElement("button");
     cancelTaskEditBtn.innerText = "Cancel";
     cancelTaskEditBtn.className = "cancel-task-btn";
-    cancelTaskEditBtn.addEventListener("click", () => handleCancel(task));
+    cancelTaskEditBtn.addEventListener("click", () =>
+      handleCancel(task, isNewTask)
+    );
     buttonContainer.appendChild(cancelTaskEditBtn);
 
     taskDiv.appendChild(buttonContainer);
 
-    // attach to DOM in different ways depending on new task or edit task
-    if (taskLi === null) {
-      taskNewButton.parentNode.replaceChild(taskDiv, taskNewButton);
-    } else {
-      taskLi.parentNode.replaceChild(taskDiv, taskLi);
-    }
+    attachmentPoint.parentNode.replaceChild(taskDiv, attachmentPoint);
   };
 
   return { updateProjectView, updateTaskView, editTask };
