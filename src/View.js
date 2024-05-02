@@ -124,7 +124,10 @@ function View() {
       const newLi = document.createElement("li");
       newLi.id = task.id;
       newLi.innerText = `${task.title} - ${task.description}`;
-      newLi.addEventListener("click", () => editTask(task));
+      newLi.addEventListener("click", (e) => {
+        console.log(e.target);
+        editTask(task);
+      });
 
       newUl.appendChild(newLi);
       mainContentDiv.appendChild(newUl);
@@ -141,8 +144,8 @@ function View() {
   };
 
   const editTask = (task, isNewTask = false) => {
+    const taskLi = document.getElementById(task.id);
     // Replace existing DOM element with full details
-
     let attachmentPoint;
     if (isNewTask) {
       attachmentPoint = document.getElementById("new-task-button-li");
@@ -153,6 +156,9 @@ function View() {
     // Container div
     const taskDiv = document.createElement("div");
     taskDiv.classList.add("task-details");
+    // taskDiv.addEventListener("blur", () => {
+    //   console.log("focus out");
+    // });
 
     // Title input field
     const titleInput = document.createElement("input");
@@ -230,6 +236,40 @@ function View() {
     taskDiv.appendChild(buttonContainer);
 
     attachmentPoint.parentNode.replaceChild(taskDiv, attachmentPoint);
+
+    // click inside or outside element checker.
+    // add this at a specific time?
+
+    // var container = document.getElementsByClassName("container")[0];
+    console.log("taskId", task);
+    console.log(taskDiv.parentNode);
+    console.log(taskLi);
+    // console.log(taskDiv.contains(task));
+    if (!taskDiv.parentNode.contains(taskLi)) {
+      console.log("temp test");
+
+      document.addEventListener("click", function (event) {
+        if (taskDiv !== event.target && !taskDiv.contains(event.target)) {
+          console.log("clicking outside the div");
+          //handleCancel(task);
+        }
+      });
+    }
+
+    // if (mainContentDiv.contains(taskDiv)) {
+    //   console.log("maincontentdiv contains taskDiv");
+    //   document.addEventListener("click", (event) => {
+    //     const withinBoundaries = event.composedPath().includes(taskDiv);
+    //     console.log(event.composedPath());
+
+    //     if (withinBoundaries) {
+    //       console.log("inside");
+    //     } else {
+    //       console.log("outside");
+    //       //handleCancel(task);
+    //     }
+    //   });
+    // }
   };
 
   return { updateProjectView, updateTaskView, editTask };
