@@ -112,7 +112,7 @@ function View() {
     });
   };
 
-  const updateTaskView = (project) => {
+  const updateTaskView = (project, isNewTask = false) => {
     activeProject = project;
     mainContentDiv.innerHTML = "";
     const projectDetails = project.getProjectDetails();
@@ -132,33 +132,26 @@ function View() {
       mainContentDiv.appendChild(newUl);
     });
 
-    // Add new task functionality
-    const newTaskLi = document.createElement("li");
-    newTaskLi.id = "new-task-button-li";
-    const newTaskBtn = document.createElement("button");
-    newTaskBtn.innerText = "Add New Task";
-    newTaskBtn.addEventListener("click", handleNewTaskBtn);
-    newTaskLi.appendChild(newTaskBtn);
-    newUl.appendChild(newTaskLi);
+    // Add new task button at the bottom of the task list
+    if (!isNewTask) {
+      const newTaskLi = document.createElement("li");
+      newTaskLi.id = "new-task-button-li";
+      const newTaskBtn = document.createElement("button");
+      newTaskBtn.innerText = "Add New Task";
+      newTaskBtn.addEventListener("click", handleNewTaskBtn);
+      newTaskLi.appendChild(newTaskBtn);
+      newUl.appendChild(newTaskLi);
+    }
   };
 
   // Replace existing DOM element with full details
   const editTask = (task, isNewTask = false) => {
     const taskOwner = getOwningProjectFromTaskDetails(task);
-
-    // TO DO: Still an issue if adding a new task while editing an existing task.
+    
     // Folds up the task details if it's not a new task
-    if (!isNewTask) {
-      updateTaskView(taskOwner);
-    }
+    updateTaskView(taskOwner, isNewTask);
 
-    // Determines where it will attach to DOM
-    let attachmentPoint;
-    if (isNewTask) {
-      attachmentPoint = document.getElementById("new-task-button-li");
-    } else {
-      attachmentPoint = document.getElementById(task.id);
-    }
+    let attachmentPoint = document.getElementById(task.id);
 
     // Container div
     const taskDiv = document.createElement("div");
@@ -171,7 +164,7 @@ function View() {
 
     // Description input field
     const descriptionInput = document.createElement("textarea");
-    descriptionInput.value = task.description || ""; 
+    descriptionInput.value = task.description || "";
     descriptionInput.placeholder = "Description";
     taskDiv.appendChild(descriptionInput);
 
@@ -199,7 +192,7 @@ function View() {
       priorityOption.value = option.toLowerCase();
       priorityInput.appendChild(priorityOption);
     });
-    priorityInput.value = task.priority || ""; 
+    priorityInput.value = task.priority || "";
     taskDiv.appendChild(priorityInput);
 
     // button container
