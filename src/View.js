@@ -48,10 +48,10 @@ function View() {
   const handleNewTaskBtn = () => {
     console.log("Add new task button");
     const newTestingTask = Task({
-      title: "A testing Task",
-      description: "Test new!",
+      title: "",
+      description: "",
       dueDate: undefined,
-      priority: "Normal",
+      priority: "",
       notes: "",
     });
     const newTask = activeProject.addTask(newTestingTask);
@@ -144,11 +144,12 @@ function View() {
     }
   };
 
+  // TODO: Snap focus to title input element.
   // Replace existing DOM element with full details
   const editTask = (task, isNewTask = false) => {
     const taskOwner = getOwningProjectFromTaskDetails(task);
-    
-    // Folds up the task details if it's not a new task
+
+    // Folds up the task details (accordion)
     updateTaskView(taskOwner, isNewTask);
 
     let attachmentPoint = document.getElementById(task.id);
@@ -160,6 +161,7 @@ function View() {
     // Title input field
     const titleInput = document.createElement("input");
     titleInput.value = task.title;
+    titleInput.placeholder = "Title";
     taskDiv.appendChild(titleInput);
 
     // Description input field
@@ -169,31 +171,42 @@ function View() {
     taskDiv.appendChild(descriptionInput);
 
     // Due date input field
+    const dateContainer = document.createElement("div");
+    dateContainer.classList.add("input-container");
+    const dueDateLabel = document.createElement("label");
+    dueDateLabel.innerHTML = "Due Date:";
     const dueDateInput = document.createElement("input");
     dueDateInput.type = "date";
     console.log("task.duedate is: ", task.dueDate);
     const convertedDate = HTMLdate(task.dueDate);
     dueDateInput.value = convertedDate;
-    taskDiv.appendChild(dueDateInput);
+
+    dateContainer.appendChild(dueDateLabel);
+    dateContainer.appendChild(dueDateInput);
+    taskDiv.appendChild(dateContainer);
 
     // Priority input field
+    const priorityContainer = document.createElement("div");
+    priorityContainer.classList.add("input-container");
+    const priorityLabel = document.createElement("label");    
+    priorityLabel.innerHTML = "Priority:";
     const priorityInput = document.createElement("select");
     const priorityOptions = ["Low", "Medium", "High"];
-    // const priorityPlaceholder = document.createElement("option");
-    // priorityPlaceholder.text = "Priority";
-    // priorityPlaceholder.value = "Priority";
-    // priorityPlaceholder.disabled = true;
-    // priorityPlaceholder.hidden = true;
-    // priorityPlaceholder.setAttribute("selected", "selected");
-    // priorityInput.appendChild(priorityPlaceholder);
+
     priorityOptions.forEach((option) => {
       const priorityOption = document.createElement("option");
       priorityOption.text = option;
       priorityOption.value = option.toLowerCase();
       priorityInput.appendChild(priorityOption);
     });
-    priorityInput.value = task.priority || "";
-    taskDiv.appendChild(priorityInput);
+    priorityInput.value = task.priority; // || "";
+    
+    priorityContainer.appendChild(priorityLabel);
+    priorityContainer.appendChild(priorityInput);
+    taskDiv.appendChild(priorityContainer);
+    
+    // taskDiv.appendChild(priorityLabel);
+    // taskDiv.appendChild(priorityInput);
 
     // button container
     const buttonContainer = document.createElement("div");
@@ -233,6 +246,8 @@ function View() {
     taskDiv.appendChild(buttonContainer);
 
     attachmentPoint.parentNode.replaceChild(taskDiv, attachmentPoint);
+
+    titleInput.focus();
   };
 
   return { updateProjectView, updateTaskView, editTask };
