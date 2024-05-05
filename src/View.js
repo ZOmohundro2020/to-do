@@ -121,13 +121,18 @@ function View() {
     newUl.id = "task-list";
     projectDetails.tasksDetailsArray.forEach((task) => {
       const newLi = document.createElement("li");
+      const newCompButton = document.createElement("button");
+      newCompButton.classList.add("comp-btn");
+      newCompButton.innerText = "";
       newLi.id = task.id;
+      //newLi.appendChild(newCompButton);
       newLi.innerText = `${task.title} - ${task.description}`;
       newLi.addEventListener("click", (e) => {
         console.log(e.target);
         editTask(task);
       });
 
+      newLi.insertBefore(newCompButton, newLi.childNodes[0]);
       newUl.appendChild(newLi);
       mainContentDiv.appendChild(newUl);
     });
@@ -144,7 +149,6 @@ function View() {
     }
   };
 
-  // TODO: Snap focus to title input element.
   // Replace existing DOM element with full details
   const editTask = (task, isNewTask = false) => {
     const taskOwner = getOwningProjectFromTaskDetails(task);
@@ -188,7 +192,7 @@ function View() {
     // Priority input field
     const priorityContainer = document.createElement("div");
     priorityContainer.classList.add("input-container");
-    const priorityLabel = document.createElement("label");    
+    const priorityLabel = document.createElement("label");
     priorityLabel.innerHTML = "Priority:";
     const priorityInput = document.createElement("select");
     const priorityOptions = ["Low", "Medium", "High"];
@@ -200,11 +204,11 @@ function View() {
       priorityInput.appendChild(priorityOption);
     });
     priorityInput.value = task.priority; // || "";
-    
+
     priorityContainer.appendChild(priorityLabel);
     priorityContainer.appendChild(priorityInput);
     taskDiv.appendChild(priorityContainer);
-    
+
     // taskDiv.appendChild(priorityLabel);
     // taskDiv.appendChild(priorityInput);
 
