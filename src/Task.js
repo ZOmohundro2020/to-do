@@ -13,6 +13,7 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
     notes,
     id: generateId(),
     owner: null,
+    completed: false,
   };
 
   const getTask = () => task;
@@ -29,7 +30,16 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
     console.log(`${title} edited`);
   };
 
-  return { getTask, getTaskId, editTask, setTaskOwner, getTaskOwner };
+  const toggleCompleted = () => (task.completed = !task.completed);
+
+  return {
+    getTask,
+    getTaskId,
+    editTask,
+    setTaskOwner,
+    getTaskOwner,
+    toggleCompleted,
+  };
 }
 
 export default Task;

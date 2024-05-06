@@ -10,6 +10,7 @@ const testTask = Task({
   dueDate: undefined,
   priority: "medium",
   notes: "",
+  completed: false,
 });
 
 const testTask2 = Task({
@@ -18,6 +19,7 @@ const testTask2 = Task({
   dueDate: undefined,
   priority: "low",
   notes: "",
+  completed: false,
 });
 
 const funTask = Task({
@@ -26,6 +28,7 @@ const funTask = Task({
   dueDate: undefined,
   priority: "high",
   notes: "",
+  completed: false,
 });
 
 const projectList = ProjectList();

@@ -8,7 +8,7 @@ function View() {
   let storedProjects = [];
   let activeProject;
 
-  // helper function to find the Project that a Task belongs to
+  // Helper function to find the Project that a Task belongs to
   const getOwningProjectFromTaskDetails = (task) => {
     const owningProject = storedProjects
       .getProjects()
@@ -16,7 +16,7 @@ function View() {
     return owningProject;
   };
 
-  // helper function to return HTML date
+  // Helper function to return HTML date
   const HTMLdate = (dateInput) => {
     const date = new Date(dateInput);
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -27,7 +27,7 @@ function View() {
     return htmlDate;
   };
 
-  // another date helper function to deal with UTC dates
+  // Another date helper function to deal with UTC dates
   function parseDateString(dateString) {
     const dateOnlyRegex =
       /^([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])))$/;
@@ -46,18 +46,19 @@ function View() {
   };
 
   const handleNewTaskBtn = () => {
-    console.log("Add new task button");
     const newTestingTask = Task({
       title: "",
       description: "",
       dueDate: undefined,
       priority: "",
       notes: "",
+      completed: false,
     });
     const newTask = activeProject.addTask(newTestingTask);
     newTestingTask.setTaskOwner(newTask);
     editTask(newTestingTask.getTask(), true);
   };
+
   const handleDeleteTask = (task) => {
     const owningProject = getOwningProjectFromTaskDetails(task);
 
@@ -123,13 +124,18 @@ function View() {
       const newLi = document.createElement("li");
       const newCompButton = document.createElement("button");
       newCompButton.classList.add("comp-btn");
-      newCompButton.innerText = "";
+      newCompButton.innerText = "✔";
       newLi.id = task.id;
-      //newLi.appendChild(newCompButton);
+      task.completed
+        ? newLi.classList.add("completed")
+        : newLi.classList.remove("completed");
       newLi.innerText = `${task.title} - ${task.description}`;
       newLi.addEventListener("click", (e) => {
-        console.log(e.target);
-        editTask(task);
+        if (e.target === newCompButton) {
+          completeTask(task);
+        } else {
+          editTask(task);
+        }
       });
 
       newLi.insertBefore(newCompButton, newLi.childNodes[0]);
@@ -149,11 +155,19 @@ function View() {
     }
   };
 
-  // Replace existing DOM element with full details
-  const editTask = (task, isNewTask = false) => {
+  // Toggle a task as completed or not completed
+  const completeTask = (task) => {
+    const owningProject = getOwningProjectFromTaskDetails(task);
+    const actualTaskObject = owningProject.getTask(task.id);
+    actualTaskObject.toggleCompleted();
+    updateTaskView(owningProject);
+  };
+
+  // Replace existing li DOM element with full task details for editing
+  const editTask = (task, isNewTask = false) => {    
     const taskOwner = getOwningProjectFromTaskDetails(task);
 
-    // Folds up the task details (accordion)
+    // Folds up the task details (accordion) so multiple tasks aren't open at once for editing
     updateTaskView(taskOwner, isNewTask);
 
     let attachmentPoint = document.getElementById(task.id);
@@ -180,8 +194,7 @@ function View() {
     const dueDateLabel = document.createElement("label");
     dueDateLabel.innerHTML = "Due Date:";
     const dueDateInput = document.createElement("input");
-    dueDateInput.type = "date";
-    console.log("task.duedate is: ", task.dueDate);
+    dueDateInput.type = "date";    
     const convertedDate = HTMLdate(task.dueDate);
     dueDateInput.value = convertedDate;
 
@@ -203,27 +216,24 @@ function View() {
       priorityOption.value = option.toLowerCase();
       priorityInput.appendChild(priorityOption);
     });
-    priorityInput.value = task.priority; // || "";
+    priorityInput.value = task.priority;
 
     priorityContainer.appendChild(priorityLabel);
     priorityContainer.appendChild(priorityInput);
     taskDiv.appendChild(priorityContainer);
 
-    // taskDiv.appendChild(priorityLabel);
-    // taskDiv.appendChild(priorityInput);
-
-    // button container
+    // Button container
     const buttonContainer = document.createElement("div");
     buttonContainer.className = "button-container";
 
-    // delete task button
+    // Delete task button
     const deleteTaskBtn = document.createElement("button");
     deleteTaskBtn.innerText = "Delete Task";
     deleteTaskBtn.className = "delete-task-btn";
     deleteTaskBtn.addEventListener("click", () => handleDeleteTask(task));
     buttonContainer.appendChild(deleteTaskBtn);
 
-    // save task button
+    // Save task button
     const saveTaskBtn = document.createElement("button");
     saveTaskBtn.innerText = "Save";
     saveTaskBtn.className = "save-task-btn";
@@ -238,7 +248,7 @@ function View() {
     );
     buttonContainer.appendChild(saveTaskBtn);
 
-    // cancel task editing button
+    // Cancel task editing button
     const cancelTaskEditBtn = document.createElement("button");
     cancelTaskEditBtn.innerText = "Cancel";
     cancelTaskEditBtn.className = "cancel-task-btn";
@@ -250,7 +260,6 @@ function View() {
     taskDiv.appendChild(buttonContainer);
 
     attachmentPoint.parentNode.replaceChild(taskDiv, attachmentPoint);
-
     titleInput.focus();
   };
 
