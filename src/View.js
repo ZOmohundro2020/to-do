@@ -124,7 +124,11 @@ function View() {
       const newLi = document.createElement("li");
       const newCompButton = document.createElement("button");
       newCompButton.classList.add("comp-btn");
-      newCompButton.innerText = "✔";
+      // newCompButton.innerText = "✔";
+      const newBtnHoverText = document.createElement("div");
+      newBtnHoverText.classList.add("button-text");
+      newBtnHoverText.innerHTML = "✓";
+      newCompButton.appendChild(newBtnHoverText);
       newLi.id = task.id;
       task.completed
         ? newLi.classList.add("completed")
@@ -164,7 +168,7 @@ function View() {
   };
 
   // Replace existing li DOM element with full task details for editing
-  const editTask = (task, isNewTask = false) => {    
+  const editTask = (task, isNewTask = false) => {
     const taskOwner = getOwningProjectFromTaskDetails(task);
 
     // Folds up the task details (accordion) so multiple tasks aren't open at once for editing
@@ -194,7 +198,7 @@ function View() {
     const dueDateLabel = document.createElement("label");
     dueDateLabel.innerHTML = "Due Date:";
     const dueDateInput = document.createElement("input");
-    dueDateInput.type = "date";    
+    dueDateInput.type = "date";
     const convertedDate = HTMLdate(task.dueDate);
     dueDateInput.value = convertedDate;
 

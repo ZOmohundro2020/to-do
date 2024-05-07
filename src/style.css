@@ -29,6 +29,8 @@ html {
 }
 
 #task-list li {
+  display: flex;
+  align-items: center;
   margin: 5px;
 }
 
@@ -78,6 +80,7 @@ input {
 
 .comp-btn {
   /* display:block; */
+  position: relative;
   width: 23px;
   height: 23px;
   line-height: 23px;
@@ -91,10 +94,26 @@ input {
   /* font-size:20px; */
   /* font-weight:bold;  */
   margin-right: 6px;
+  transition: all 0.3s ease;
 }
 .comp-btn:hover {
-  background: #d1d1d0;
+  background: #ace4ae;
 }
+
+.comp-btn:hover .button-text {
+  opacity: 1;
+}
+
+.button-text {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
 
 .completed {
   color: darkgray;
