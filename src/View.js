@@ -113,6 +113,7 @@ function View() {
     });
   };
 
+  // TO DO: my styling broke the completed button functionality.
   const updateTaskView = (project, isNewTask = false) => {
     activeProject = project;
     mainContentDiv.innerHTML = "";
@@ -135,7 +136,8 @@ function View() {
         : newLi.classList.remove("completed");
       newLi.innerText = `${task.title} - ${task.description}`;
       newLi.addEventListener("click", (e) => {
-        if (e.target === newCompButton) {
+        console.log("e.target", e.target);
+        if (e.target === newCompButton || e.target === newBtnHoverText) {
           completeTask(task);
         } else {
           editTask(task);
