@@ -1,9 +1,48 @@
-body,
-html {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
   margin: 0;
-  padding: 0;
+}
+html {
   height: 100%;
   font-family: Arial, sans-serif;
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+#root,
+#__next {
+  isolation: isolate;
 }
 
 .container {
@@ -18,9 +57,14 @@ html {
   padding: 10px;
 }
 
+.sidebar button {
+  margin-bottom: 0.2em;
+}
+
 .main-content {
   flex: 1;
-  padding: 20px;
+  /* padding: 20px; */
+  margin-left: 8px;
 }
 
 #task-list {
@@ -113,9 +157,21 @@ input {
   transform: translate(-50%, -50%);
 }
 
-
-
 .completed {
   color: darkgray;
   text-decoration: line-through;
+}
+
+.project-name-input {
+  width: 90px;
+  border: none;
+}
+
+.project-title-header {
+  display: flex;
+  padding: 5px;
+}
+
+.project-title-header h3 {
+  display: flex;
 }

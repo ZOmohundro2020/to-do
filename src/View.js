@@ -116,25 +116,39 @@ function View() {
     const newProjectBtn = document.createElement("button");
     newProjectBtn.innerText = "+";
     newProjectBtn.addEventListener("click", () => {
-      handleNewProjectBtn();
+      handleNewProjectBtn(newProjectBtn);
     });
 
     sidebarDiv.appendChild(newProjectBtn);
   };
 
   // TO DO: Add new projects
-  const handleNewProjectBtn = () => {
-    const newProject = Project("New Project");
-    storedProjects.addProject(newProject);
-    updateProjectView(storedProjects);
+  const handleNewProjectBtn = (buttonElement) => {
+    const projectNameInput = document.createElement("input");
+    projectNameInput.classList.add("project-name-input");
+    projectNameInput.addEventListener("blur", () => {
+      console.log(projectNameInput.value);
+      const newProject = Project(`${projectNameInput.value}`);
+      storedProjects.addProject(newProject);
+      updateProjectView(storedProjects);
+    });
+    buttonElement.parentNode.replaceChild(projectNameInput, buttonElement);
+    projectNameInput.focus();
   };
 
   const updateTaskView = (project, isNewTask = false) => {
     activeProject = project;
     console.log("active project is: ", activeProject);
-    console.log("is new task is: ",isNewTask);
+    console.log("is new task is: ", isNewTask);
     mainContentDiv.innerHTML = "";
     const projectDetails = project.getProjectDetails();
+
+    const projectTitleHeader = document.createElement("div");
+    projectTitleHeader.classList.add("project-title-header");
+    const projectTitle = document.createElement("h3");
+    projectTitle.innerText = `${project.getProjectDetails().projectName}`;
+    projectTitleHeader.appendChild(projectTitle);
+    mainContentDiv.appendChild(projectTitleHeader);
 
     const newUl = document.createElement("ul");
     newUl.id = "task-list";
@@ -161,10 +175,9 @@ function View() {
 
       newLi.insertBefore(newCompButton, newLi.childNodes[0]);
       newUl.appendChild(newLi);
-      mainContentDiv.appendChild(newUl);
     });
+    mainContentDiv.appendChild(newUl);
 
-    // TO DO: Fix this so it appears on empty projects
     // Add new task button at the bottom of the task list
     if (!isNewTask) {
       const newTaskLi = document.createElement("li");
