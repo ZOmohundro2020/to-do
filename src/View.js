@@ -122,15 +122,16 @@ function View() {
     sidebarDiv.appendChild(newProjectBtn);
   };
 
-  // TO DO: Add new projects
   const handleNewProjectBtn = (buttonElement) => {
     const projectNameInput = document.createElement("input");
     projectNameInput.classList.add("project-name-input");
-    projectNameInput.addEventListener("blur", () => {
-      console.log(projectNameInput.value);
-      const newProject = Project(`${projectNameInput.value}`);
-      storedProjects.addProject(newProject);
+    projectNameInput.addEventListener("blur", () => {      
+      if (projectNameInput.value.trim() != "") {
+        var newProject = Project(`${projectNameInput.value}`);
+        storedProjects.addProject(newProject);
+      }
       updateProjectView(storedProjects);
+      updateTaskView(newProject);
     });
     buttonElement.parentNode.replaceChild(projectNameInput, buttonElement);
     projectNameInput.focus();
@@ -138,11 +139,11 @@ function View() {
 
   const updateTaskView = (project, isNewTask = false) => {
     activeProject = project;
-    console.log("active project is: ", activeProject);
-    console.log("is new task is: ", isNewTask);
     mainContentDiv.innerHTML = "";
     const projectDetails = project.getProjectDetails();
 
+    // TO DO: Add the ability to update or delete projects from this header
+    // Create a project header
     const projectTitleHeader = document.createElement("div");
     projectTitleHeader.classList.add("project-title-header");
     const projectTitle = document.createElement("h3");
@@ -150,6 +151,7 @@ function View() {
     projectTitleHeader.appendChild(projectTitle);
     mainContentDiv.appendChild(projectTitleHeader);
 
+    // List the project tasks
     const newUl = document.createElement("ul");
     newUl.id = "task-list";
     projectDetails.tasksDetailsArray.forEach((task) => {
@@ -289,15 +291,7 @@ function View() {
         handleDeleteTask(task);
       }
     });
-    // saveTaskBtn.addEventListener("click", () =>
-    //   handleSaveTask({
-    //     task,
-    //     titleInput,
-    //     descriptionInput,
-    //     dueDateInput,
-    //     priorityInput,
-    //   })
-    // );
+
     buttonContainer.appendChild(saveTaskBtn);
 
     // Cancel task editing button
