@@ -1,4 +1,5 @@
 import Task from "./Task";
+import Project from "./Project";
 
 function View() {
   const sidebarDiv = document.getElementById("sidebar");
@@ -103,19 +104,35 @@ function View() {
     projects.getProjects().forEach((element) => {
       const newProjectDiv = document.createElement("div");
       newProjectDiv.className = "project";
-      const newProjectBtn = document.createElement("button");
-      newProjectBtn.innerText = element.getProjectDetails().projectName;
-      newProjectBtn.addEventListener("click", () => {
+      const existingProjectBtn = document.createElement("button");
+      existingProjectBtn.innerText = element.getProjectDetails().projectName;
+      existingProjectBtn.addEventListener("click", () => {
         handleProjectBtn(element);
       });
 
-      sidebarDiv.appendChild(newProjectBtn);
+      sidebarDiv.appendChild(existingProjectBtn);
     });
+
+    const newProjectBtn = document.createElement("button");
+    newProjectBtn.innerText = "+";
+    newProjectBtn.addEventListener("click", () => {
+      handleNewProjectBtn();
+    });
+
+    sidebarDiv.appendChild(newProjectBtn);
   };
 
-  // TO DO: my styling broke the completed button functionality.
+  // TO DO: Add new projects
+  const handleNewProjectBtn = () => {
+    const newProject = Project("New Project");
+    storedProjects.addProject(newProject);
+    updateProjectView(storedProjects);
+  };
+
   const updateTaskView = (project, isNewTask = false) => {
     activeProject = project;
+    console.log("active project is: ", activeProject);
+    console.log("is new task is: ",isNewTask);
     mainContentDiv.innerHTML = "";
     const projectDetails = project.getProjectDetails();
 
@@ -125,7 +142,6 @@ function View() {
       const newLi = document.createElement("li");
       const newCompButton = document.createElement("button");
       newCompButton.classList.add("comp-btn");
-      // newCompButton.innerText = "✔";
       const newBtnHoverText = document.createElement("div");
       newBtnHoverText.classList.add("button-text");
       newBtnHoverText.innerHTML = "✓";
@@ -136,7 +152,6 @@ function View() {
         : newLi.classList.remove("completed");
       newLi.innerText = `${task.title} - ${task.description}`;
       newLi.addEventListener("click", (e) => {
-        console.log("e.target", e.target);
         if (e.target === newCompButton || e.target === newBtnHoverText) {
           completeTask(task);
         } else {
@@ -149,6 +164,7 @@ function View() {
       mainContentDiv.appendChild(newUl);
     });
 
+    // TO DO: Fix this so it appears on empty projects
     // Add new task button at the bottom of the task list
     if (!isNewTask) {
       const newTaskLi = document.createElement("li");
@@ -168,6 +184,9 @@ function View() {
     actualTaskObject.toggleCompleted();
     updateTaskView(owningProject);
   };
+
+  // TO DO: You can click from editing a new task to an existing task and it will leave behind the mostly
+  // empty new task
 
   // Replace existing li DOM element with full task details for editing
   const editTask = (task, isNewTask = false) => {
@@ -243,15 +262,29 @@ function View() {
     const saveTaskBtn = document.createElement("button");
     saveTaskBtn.innerText = "Save";
     saveTaskBtn.className = "save-task-btn";
-    saveTaskBtn.addEventListener("click", () =>
-      handleSaveTask({
-        task,
-        titleInput,
-        descriptionInput,
-        dueDateInput,
-        priorityInput,
-      })
-    );
+    saveTaskBtn.addEventListener("click", () => {
+      // make sure the task at least has a name
+      if (titleInput.value != "" || !isNewTask) {
+        handleSaveTask({
+          task,
+          titleInput,
+          descriptionInput,
+          dueDateInput,
+          priorityInput,
+        });
+      } else if (isNewTask) {
+        handleDeleteTask(task);
+      }
+    });
+    // saveTaskBtn.addEventListener("click", () =>
+    //   handleSaveTask({
+    //     task,
+    //     titleInput,
+    //     descriptionInput,
+    //     dueDateInput,
+    //     priorityInput,
+    //   })
+    // );
     buttonContainer.appendChild(saveTaskBtn);
 
     // Cancel task editing button
