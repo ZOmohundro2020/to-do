@@ -5,7 +5,7 @@ function View() {
   const sidebarDiv = document.getElementById("sidebar");
   const mainContentDiv = document.getElementById("main-content");
 
-  // Store project information for access inside of View
+  // Store project state information for access inside of View
   let storedProjects = [];
   let activeProject;
 
@@ -47,14 +47,9 @@ function View() {
     return new Date(dateString);
   }
 
-  // TO DO: Handle case where user starts adding a new project but doesn't because it's blank --
-  // Need to set active project correctly and clean up logic.
   const handleProjectBtn = (project) => {
-    console.log(project);
-    project.toggleProjectActive();
-    console.log(project.getProjectDetails().projectIsActive);    
+    activeProject = project;
     updateProjectView();
-
     updateTaskView(project);
   };
 
@@ -109,21 +104,20 @@ function View() {
     updateTaskView(owningProject);
   };
 
-  const updateProjectView = () => {    
+  const updateProjectView = () => {
     sidebarDiv.innerHTML = "";
 
-    storedProjects.getProjects().forEach((element) => {
+    storedProjects.getProjects().forEach((element) => {      
       const details = element.getProjectDetails();
       const newProjectDiv = document.createElement("div");
       newProjectDiv.className = "project";
       const existingProjectBtn = document.createElement("button");
-      if (details.projectIsActive) {
+      if (element == activeProject) {
         existingProjectBtn.classList.add("active-project");
-        element.toggleProjectActive();
       } else {
         existingProjectBtn.classList.remove("active-project");
       }
-      existingProjectBtn.innerText = element.getProjectDetails().projectName;
+      existingProjectBtn.innerText = details.projectName;
       existingProjectBtn.addEventListener("click", () => {
         handleProjectBtn(element);
       });
@@ -147,8 +141,8 @@ function View() {
       if (projectNameInput.value.trim() != "") {
         var newProject = Project(`${projectNameInput.value}`);
         storedProjects.addProject(newProject);
-        newProject.toggleProjectActive();
-      }      
+        activeProject = newProject;
+      }
       updateProjectView();
 
       if (newProject) updateTaskView(newProject);
@@ -158,7 +152,7 @@ function View() {
   };
 
   const updateTaskView = (project, isNewTask = false) => {
-    activeProject = project;
+    //activeProject = project; // I don't think this is needed anymore for edge cases
     mainContentDiv.innerHTML = "";
     const projectDetails = project.getProjectDetails();
 

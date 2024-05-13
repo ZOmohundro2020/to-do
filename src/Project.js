@@ -31,13 +31,14 @@ function Project(name) {
 
   const setProjectName = (name) => (projectName = name);
 
+  // Not currently using this functionality
   const toggleProjectActive = () => projectIsActive = !projectIsActive;
 
   const getProjectDetails = () => {
     return {
       projectName,
       projectId,
-      projectIsActive,
+      projectIsActive, // Not currently using this
       tasksDetailsArray,
     };
   };
