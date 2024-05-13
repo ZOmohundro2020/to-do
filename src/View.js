@@ -9,6 +9,11 @@ function View() {
   let storedProjects = [];
   let activeProject;
 
+  const storeInitialProjects = (projects) => {
+    storedProjects = projects;
+    updateProjectView();
+  };
+
   // Helper function to find the Project that a Task belongs to
   const getOwningProjectFromTaskDetails = (task) => {
     const owningProject = storedProjects
@@ -47,8 +52,9 @@ function View() {
   const handleProjectBtn = (project) => {
     console.log(project);
     project.toggleProjectActive();
-    console.log(project.getProjectDetails().projectIsActive);
-    updateProjectView(storedProjects);
+    console.log(project.getProjectDetails().projectIsActive);    
+    updateProjectView();
+
     updateTaskView(project);
   };
 
@@ -103,11 +109,10 @@ function View() {
     updateTaskView(owningProject);
   };
 
-  const updateProjectView = (projects) => {
-    storedProjects = projects;
+  const updateProjectView = () => {    
     sidebarDiv.innerHTML = "";
 
-    projects.getProjects().forEach((element) => {
+    storedProjects.getProjects().forEach((element) => {
       const details = element.getProjectDetails();
       const newProjectDiv = document.createElement("div");
       newProjectDiv.className = "project";
@@ -143,8 +148,9 @@ function View() {
         var newProject = Project(`${projectNameInput.value}`);
         storedProjects.addProject(newProject);
         newProject.toggleProjectActive();
-      }
-      updateProjectView(storedProjects);
+      }      
+      updateProjectView();
+
       if (newProject) updateTaskView(newProject);
     });
     buttonElement.parentNode.replaceChild(projectNameInput, buttonElement);
@@ -323,7 +329,7 @@ function View() {
     titleInput.focus();
   };
 
-  return { updateProjectView, updateTaskView, editTask };
+  return { updateTaskView, editTask, storeInitialProjects };
 }
 
 export default View;

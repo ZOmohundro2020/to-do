@@ -50,4 +50,5 @@ projectList.addProject(defaultProject);
 projectList.addProject(funProject);
 
 const view = View();
-view.updateProjectView(projectList);
+//view.updateProjectView(projectList);
+view.storeInitialProjects(projectList);
