@@ -3,6 +3,7 @@ function Project(name) {
 
   let projectName = name;
   const projectId = generateId();
+  let projectIsActive = false;
 
   // one array stores task details, one stores the actual task objects themselves
   const tasksDetailsArray = [];
@@ -29,10 +30,14 @@ function Project(name) {
   };
 
   const setProjectName = (name) => (projectName = name);
+
+  const toggleProjectActive = () => projectIsActive = !projectIsActive;
+
   const getProjectDetails = () => {
     return {
       projectName,
       projectId,
+      projectIsActive,
       tasksDetailsArray,
     };
   };
@@ -44,6 +49,7 @@ function Project(name) {
     getTasksObjects,
     getTask,
     setProjectName,
+    toggleProjectActive,
     getProjectDetails,
   };
 }

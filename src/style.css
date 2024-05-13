@@ -178,5 +178,8 @@ input {
   display: flex;
 }
 
+.active-project {
+  font-weight: bold;
+}
 
 /* TO DO: Horizontal Center Project buttons. Flex? */

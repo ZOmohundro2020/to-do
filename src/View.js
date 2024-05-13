@@ -42,7 +42,13 @@ function View() {
     return new Date(dateString);
   }
 
+  // TO DO: Handle case where user starts adding a new project but doesn't because it's blank --
+  // Need to set active project correctly and clean up logic.
   const handleProjectBtn = (project) => {
+    console.log(project);
+    project.toggleProjectActive();
+    console.log(project.getProjectDetails().projectIsActive);
+    updateProjectView(storedProjects);
     updateTaskView(project);
   };
 
@@ -102,9 +108,16 @@ function View() {
     sidebarDiv.innerHTML = "";
 
     projects.getProjects().forEach((element) => {
+      const details = element.getProjectDetails();
       const newProjectDiv = document.createElement("div");
       newProjectDiv.className = "project";
       const existingProjectBtn = document.createElement("button");
+      if (details.projectIsActive) {
+        existingProjectBtn.classList.add("active-project");
+        element.toggleProjectActive();
+      } else {
+        existingProjectBtn.classList.remove("active-project");
+      }
       existingProjectBtn.innerText = element.getProjectDetails().projectName;
       existingProjectBtn.addEventListener("click", () => {
         handleProjectBtn(element);
@@ -125,13 +138,14 @@ function View() {
   const handleNewProjectBtn = (buttonElement) => {
     const projectNameInput = document.createElement("input");
     projectNameInput.classList.add("project-name-input");
-    projectNameInput.addEventListener("blur", () => {      
+    projectNameInput.addEventListener("blur", () => {
       if (projectNameInput.value.trim() != "") {
         var newProject = Project(`${projectNameInput.value}`);
         storedProjects.addProject(newProject);
+        newProject.toggleProjectActive();
       }
       updateProjectView(storedProjects);
-      updateTaskView(newProject);
+      if (newProject) updateTaskView(newProject);
     });
     buttonElement.parentNode.replaceChild(projectNameInput, buttonElement);
     projectNameInput.focus();
