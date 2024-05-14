@@ -4,9 +4,11 @@ function ProjectList() {
   const addProject = (project) => projects.push(project);
 
   const deleteProject = (projectId) => {
-    const result = projects.findIndex((obj) => obj["id"] === projectId);
+    const result = projects.findIndex(
+      (obj) => obj.getProjectDetails().projectId === projectId
+    );
     projects.splice(result, 1);
-    console.log(`Project ${projectId} deleted...`);
+    return result;
   };
 
   const getProjects = () => projects;

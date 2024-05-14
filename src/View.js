@@ -181,12 +181,20 @@ function View() {
     updateTaskView(project);
   };
 
-  // TO DO: work on this logic
   const handleDeleteProject = (project) => {
-    console.log(project);
-    console.log(project.getProjectDetails());
-    console.log(storedProjects);
-    storedProjects.deleteProject(project.getProjectDetails().projectId);
+    const projectId = project.getProjectDetails().projectId;
+    const deletedIndex = storedProjects.deleteProject(projectId);
+    const projectsList = storedProjects.getProjects();
+
+    if (projectsList.length > 0) {
+      const nextActiveIndex = Math.max(0, deletedIndex - 1);
+      const nextActiveProject = projectsList[nextActiveIndex];
+      updateTaskView(nextActiveProject);
+      activeProject = nextActiveProject;
+    } else {
+      mainContentDiv.innerHTML = `<div><p>Create a project to get started</p></div>`;
+    }
+
     updateProjectView();
   };
 
