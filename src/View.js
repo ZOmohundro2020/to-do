@@ -6,7 +6,7 @@ function View() {
   const mainContentDiv = document.getElementById("main-content");
 
   // Store project state information for access inside of View
-  let storedProjects = [];
+  let storedProjects; // = [];
   let activeProject;
 
   const storeInitialProjects = (projects) => {
@@ -107,7 +107,7 @@ function View() {
   const updateProjectView = () => {
     sidebarDiv.innerHTML = "";
 
-    storedProjects.getProjects().forEach((element) => {      
+    storedProjects.getProjects().forEach((element) => {
       const details = element.getProjectDetails();
       const newProjectDiv = document.createElement("div");
       newProjectDiv.className = "project";
@@ -151,6 +151,45 @@ function View() {
     projectNameInput.focus();
   };
 
+  const editProjectHeader = (project, headerDiv) => {
+    console.log("project header clicked");
+    const newHeaderDiv = document.createElement("div");
+    newHeaderDiv.classList.add("project-title-header");
+    const newHeaderInput = document.createElement("input");
+    newHeaderInput.value = `${project.getProjectDetails().projectName}`;
+    newHeaderDiv.appendChild(newHeaderInput);
+    const headerUpdateBtn = document.createElement("button");
+    headerUpdateBtn.innerText = "Update";
+    headerUpdateBtn.addEventListener("click", () => {
+      handleUpdateProject(project, newHeaderInput.value);
+    });
+    newHeaderDiv.appendChild(headerUpdateBtn);
+    const headerDeleteProjectBtn = document.createElement("button");
+    headerDeleteProjectBtn.innerText = "Delete Project";
+    headerDeleteProjectBtn.addEventListener("click", () => {
+      handleDeleteProject(project);
+    });
+    newHeaderDiv.appendChild(headerDeleteProjectBtn);
+
+    headerDiv.parentNode.replaceChild(newHeaderDiv, headerDiv);
+    newHeaderInput.focus();
+  };
+
+  const handleUpdateProject = (project, editProjectInput) => {
+    project.setProjectName(editProjectInput);
+    updateProjectView();
+    updateTaskView(project);
+  };
+
+  // TO DO: work on this logic
+  const handleDeleteProject = (project) => {
+    console.log(project);
+    console.log(project.getProjectDetails());
+    console.log(storedProjects);
+    storedProjects.deleteProject(project.getProjectDetails().projectId);
+    updateProjectView();
+  };
+
   const updateTaskView = (project, isNewTask = false) => {
     //activeProject = project; // I don't think this is needed anymore for edge cases
     mainContentDiv.innerHTML = "";
@@ -160,8 +199,11 @@ function View() {
     // Create a project header
     const projectTitleHeader = document.createElement("div");
     projectTitleHeader.classList.add("project-title-header");
+    projectTitleHeader.addEventListener("click", () => {
+      editProjectHeader(project, projectTitleHeader);
+    });
     const projectTitle = document.createElement("h3");
-    projectTitle.innerText = `${project.getProjectDetails().projectName}`;
+    projectTitle.innerText = `${projectDetails.projectName}`;
     projectTitleHeader.appendChild(projectTitle);
     mainContentDiv.appendChild(projectTitleHeader);
 
