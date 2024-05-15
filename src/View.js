@@ -6,9 +6,11 @@ function View() {
   const mainContentDiv = document.getElementById("main-content");
 
   const mainContentPlaceholder = `<div id="main-content" class="main-content">
-  <h1>To Do</h1>
+  <h2>To Do</h2>
   <p>Select a Project to get started!</p>
 </div>`;
+
+  mainContentDiv.innerHTML = mainContentPlaceholder;
 
   // Store project state information for access inside of View
   let storedProjects; // = [];
@@ -147,7 +149,7 @@ function View() {
     newHeaderDiv.appendChild(newHeaderInput);
     const headerSaveBtn = document.createElement("button");
     headerSaveBtn.innerText = "Save";
-    headerSaveBtn.addEventListener("click", () => {      
+    headerSaveBtn.addEventListener("click", () => {
       if (newHeaderInput.value.trim() != "") {
         var newProject = Project(`${newHeaderInput.value}`);
         storedProjects.addProject(newProject);
@@ -157,10 +159,18 @@ function View() {
 
       if (newProject) updateTaskView(newProject);
     });
+
+    newHeaderInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        headerSaveBtn.click();
+      }
+    });
+
     newHeaderDiv.appendChild(headerSaveBtn);
     const headerCancelCreateProjectBtn = document.createElement("button");
     headerCancelCreateProjectBtn.innerText = "Cancel";
-    headerCancelCreateProjectBtn.addEventListener("click", () => {      
+    headerCancelCreateProjectBtn.addEventListener("click", () => {
       if (activeProject) {
         updateTaskView(activeProject);
       } else {
@@ -253,7 +263,9 @@ function View() {
       task.completed
         ? newLi.classList.add("completed")
         : newLi.classList.remove("completed");
-      newLi.innerText = `${task.title} - ${task.description}`;
+      newLi.innerText = `${task.title}`;
+      if (task.description.trim() !== "")
+        newLi.innerText = `${task.title} - ${task.description}`;
       newLi.addEventListener("click", (e) => {
         if (e.target === newCompButton || e.target === newBtnHoverText) {
           completeTask(task);
