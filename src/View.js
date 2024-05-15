@@ -5,6 +5,11 @@ function View() {
   const sidebarDiv = document.getElementById("sidebar");
   const mainContentDiv = document.getElementById("main-content");
 
+  const mainContentPlaceholder = `<div id="main-content" class="main-content">
+  <h1>To Do</h1>
+  <p>Select a Project to get started!</p>
+</div>`;
+
   // Store project state information for access inside of View
   let storedProjects; // = [];
   let activeProject;
@@ -134,12 +139,17 @@ function View() {
     sidebarDiv.appendChild(newProjectBtn);
   };
 
-  const handleNewProjectBtn = (buttonElement) => {
-    const projectNameInput = document.createElement("input");
-    projectNameInput.classList.add("project-name-input");
-    projectNameInput.addEventListener("blur", () => {
-      if (projectNameInput.value.trim() != "") {
-        var newProject = Project(`${projectNameInput.value}`);
+  const handleNewProjectBtn = () => {
+    const newHeaderDiv = document.createElement("div");
+    newHeaderDiv.classList.add("project-title-header");
+    const newHeaderInput = document.createElement("input");
+    newHeaderInput.placeholder = "Enter New Project Name";
+    newHeaderDiv.appendChild(newHeaderInput);
+    const headerSaveBtn = document.createElement("button");
+    headerSaveBtn.innerText = "Save";
+    headerSaveBtn.addEventListener("click", () => {      
+      if (newHeaderInput.value.trim() != "") {
+        var newProject = Project(`${newHeaderInput.value}`);
         storedProjects.addProject(newProject);
         activeProject = newProject;
       }
@@ -147,8 +157,21 @@ function View() {
 
       if (newProject) updateTaskView(newProject);
     });
-    buttonElement.parentNode.replaceChild(projectNameInput, buttonElement);
-    projectNameInput.focus();
+    newHeaderDiv.appendChild(headerSaveBtn);
+    const headerCancelCreateProjectBtn = document.createElement("button");
+    headerCancelCreateProjectBtn.innerText = "Cancel";
+    headerCancelCreateProjectBtn.addEventListener("click", () => {      
+      if (activeProject) {
+        updateTaskView(activeProject);
+      } else {
+        mainContentDiv.innerHTML = mainContentPlaceholder;
+      }
+    });
+    newHeaderDiv.appendChild(headerCancelCreateProjectBtn);
+
+    mainContentDiv.innerHTML = "";
+    mainContentDiv.appendChild(newHeaderDiv);
+    newHeaderInput.focus();
   };
 
   const editProjectHeader = (project, headerDiv) => {
