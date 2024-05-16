@@ -13,7 +13,7 @@ function View() {
   mainContentDiv.innerHTML = mainContentPlaceholder;
 
   // Store project state information for access inside of View
-  let storedProjects; // = [];
+  let storedProjects;
   let activeProject;
 
   const storeInitialProjects = (projects) => {
@@ -144,9 +144,17 @@ function View() {
   const handleNewProjectBtn = () => {
     const newHeaderDiv = document.createElement("div");
     newHeaderDiv.classList.add("project-title-header");
+
     const newHeaderInput = document.createElement("input");
     newHeaderInput.placeholder = "Enter New Project Name";
+    newHeaderInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        headerSaveBtn.click();
+      }
+    });
     newHeaderDiv.appendChild(newHeaderInput);
+
     const headerSaveBtn = document.createElement("button");
     headerSaveBtn.innerText = "Save";
     headerSaveBtn.addEventListener("click", () => {
@@ -156,18 +164,10 @@ function View() {
         activeProject = newProject;
       }
       updateProjectView();
-
       if (newProject) updateTaskView(newProject);
     });
-
-    newHeaderInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        headerSaveBtn.click();
-      }
-    });
-
     newHeaderDiv.appendChild(headerSaveBtn);
+
     const headerCancelCreateProjectBtn = document.createElement("button");
     headerCancelCreateProjectBtn.innerText = "Cancel";
     headerCancelCreateProjectBtn.addEventListener("click", () => {
@@ -185,7 +185,6 @@ function View() {
   };
 
   const editProjectHeader = (project, headerDiv) => {
-    console.log("project header clicked");
     const newHeaderDiv = document.createElement("div");
     newHeaderDiv.classList.add("project-title-header");
     const newHeaderInput = document.createElement("input");
@@ -225,18 +224,16 @@ function View() {
       updateTaskView(nextActiveProject);
       activeProject = nextActiveProject;
     } else {
-      mainContentDiv.innerHTML = `<div><p>Create a project to get started</p></div>`;
+      mainContentDiv.innerHTML = `<div><p>Add a project to get started</p></div>`;
     }
 
     updateProjectView();
   };
 
   const updateTaskView = (project, isNewTask = false) => {
-    //activeProject = project; // I don't think this is needed anymore for edge cases
     mainContentDiv.innerHTML = "";
     const projectDetails = project.getProjectDetails();
 
-    // TO DO: Add the ability to update or delete projects from this header
     // Create a project header
     const projectTitleHeader = document.createElement("div");
     projectTitleHeader.classList.add("project-title-header");
