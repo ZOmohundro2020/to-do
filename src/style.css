@@ -45,14 +45,42 @@ h6 {
   isolation: isolate;
 }
 
+.body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .container {
   display: flex;
-  height: 100%;
+  /* height: 100%; */
+  margin: 1rem;
+  min-height: 21rem;
+  /* width: 110rem; */
+  /* height: 60rem; */
+  border: 1px solid #8d8d8d;
+  border-radius: 13px;
+
+  /* border-radius: 3px; */
+  -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.6);
+  overflow: hidden;
 }
 
 .sidebar {
-  width: 25%;
-  background-color: #b2b2b2;
+  display: flex;
+  flex-direction: column;
+  max-width: 20rem;
+  /* background-color: #b2b2b2; */
+  background: rgb(236, 236, 236);
+  background: linear-gradient(
+    180deg,
+    rgba(236, 236, 236, 1) 15%,
+    rgba(131, 131, 131, 0.4066001400560224) 100%
+  );
+  border-right: 1px solid #000000;
+  border-radius: 13px 0px 0px 13px;
   color: #fff;
   padding: 10px;
 }
@@ -66,7 +94,8 @@ h6 {
 .main-content {
   flex: 1;
   /* padding: 20px; */
-  margin-left: 8px;
+  /* margin-left: 8px; */
+  margin: 8px;
 }
 
 #task-list {
@@ -180,6 +209,10 @@ input {
 
 .active-project {
   font-weight: bold;
+}
+
+#new-task-button-li button{
+  margin-top: 15px;
 }
 
 /* TO DO: Horizontal Center Project buttons. Flex? */
