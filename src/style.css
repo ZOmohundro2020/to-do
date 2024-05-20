@@ -45,24 +45,13 @@ h6 {
   isolation: isolate;
 }
 
-.body {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .container {
   display: flex;
-  /* height: 100%; */
-  margin: 1rem;
+  margin: 1rem auto;
+  max-width: 90vw;
   min-height: 21rem;
-  /* width: 110rem; */
-  /* height: 60rem; */
   border: 1px solid #8d8d8d;
   border-radius: 13px;
-
-  /* border-radius: 3px; */
   -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.6);
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.6);
   overflow: hidden;
@@ -72,7 +61,6 @@ h6 {
   display: flex;
   flex-direction: column;
   max-width: 20rem;
-  /* background-color: #b2b2b2; */
   background: rgb(236, 236, 236);
   background: linear-gradient(
     180deg,
@@ -93,8 +81,6 @@ h6 {
 
 .main-content {
   flex: 1;
-  /* padding: 20px; */
-  /* margin-left: 8px; */
   margin: 8px;
 }
 
@@ -125,7 +111,6 @@ h6 {
 }
 
 .button-container button:first-child {
-  /* float: left; */
   margin-right: auto;
 }
 
@@ -154,20 +139,14 @@ input {
 }
 
 .comp-btn {
-  /* display:block; */
   position: relative;
   width: 23px;
   height: 23px;
   line-height: 23px;
-  /* border: 2px solid #f5f5f5; */
   border-radius: 50%;
   color: #000000;
   text-align: center;
   text-decoration: none;
-  /* background: #555777; */
-  /* box-shadow: 0 0 3px gray; */
-  /* font-size:20px; */
-  /* font-weight:bold;  */
   margin-right: 6px;
   transition: all 0.3s ease;
 }
@@ -211,8 +190,6 @@ input {
   font-weight: bold;
 }
 
-#new-task-button-li button{
+#new-task-button-li button {
   margin-top: 15px;
 }
-
-/* TO DO: Horizontal Center Project buttons. Flex? */
