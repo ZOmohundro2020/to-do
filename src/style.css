@@ -205,6 +205,11 @@ input {
     box-shadow: none;
     overflow: hidden;
   }
+
+  .sidebar {
+    border-radius: 0;
+  }
+  
   .project-title-header {
     display: flex;
     width: 70vw;
@@ -213,7 +218,12 @@ input {
   }
 
   .project-title-header > * {
-    flex: 1;
+    flex: 1.5;
+    margin: 0;
+    width: 1rem;
+  }
+  .project-title-header button {
+    flex: 0.5;
     margin: 0;
     width: 1rem;
   }
