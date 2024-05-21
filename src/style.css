@@ -236,3 +236,9 @@ input {
     max-width: 65vw;
   }
 }
+
+@media screen and (min-width: 2000px) {
+  .sidebar button {
+    min-width: 10vw;
+  }
+}
