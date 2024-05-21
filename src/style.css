@@ -68,14 +68,16 @@ h6 {
     rgba(131, 131, 131, 0.4066001400560224) 100%
   );
   border-right: 1px solid #000000;
-  border-radius: 13px 0px 0px 13px;
+  /* border-radius: 13px 0px 0px 13px; */
   color: #fff;
   padding: 10px;
 }
 
 .sidebar button {
   margin-bottom: 0.2em;
-  width: 20vw;
+  min-width: 15vw;
+  max-width: 20vw;
+  /* width: 20vw; */
   overflow: hidden;
 }
 
@@ -209,7 +211,7 @@ input {
   .sidebar {
     border-radius: 0;
   }
-  
+
   .project-title-header {
     display: flex;
     width: 70vw;
@@ -226,5 +228,11 @@ input {
     flex: 0.5;
     margin: 0;
     width: 1rem;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .container {
+    max-width: 65vw;
   }
 }
