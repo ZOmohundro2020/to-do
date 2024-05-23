@@ -60,7 +60,9 @@ h6 {
 .sidebar {
   display: flex;
   flex-direction: column;
-  max-width: 20rem;
+  align-items: center;
+  min-width: 20rem;
+  /* max-width: 20rem; */
   background: rgb(236, 236, 236);
   background: linear-gradient(
     180deg,
@@ -75,8 +77,9 @@ h6 {
 
 .sidebar button {
   margin-bottom: 0.2em;
-  min-width: 15vw;
-  max-width: 20vw;
+  width: 100%;
+  /* min-width: 15vw;
+  max-width: 20vw; */
   /* width: 20vw; */
   overflow: hidden;
 }
@@ -231,9 +234,25 @@ input {
   }
 }
 
+@media screen and (max-width: 600px) {
+  .sidebar {
+    min-width: 3rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .sidebar {
+    min-width: 10rem;
+  }
+}
+
+
 @media screen and (min-width: 1000px) {
   .container {
     max-width: 65vw;
+  }
+  .sidebar {
+    min-width: 15rem;
   }
 }
 
