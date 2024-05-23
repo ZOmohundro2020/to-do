@@ -145,7 +145,12 @@ function View() {
     const newHeaderDiv = document.createElement("div");
     newHeaderDiv.classList.add("project-title-header");
 
+    const newHeaderLabel = document.createElement("label");
+    newHeaderLabel.innerHTML = "Name: ";
+    newHeaderLabel.htmlFor = "new-header-input";
+
     const newHeaderInput = document.createElement("input");
+    newHeaderInput.id = "new-header-input";
     newHeaderInput.placeholder = "Enter New Project Name";
     newHeaderInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -153,6 +158,7 @@ function View() {
         headerSaveBtn.click();
       }
     });
+    newHeaderDiv.appendChild(newHeaderLabel);
     newHeaderDiv.appendChild(newHeaderInput);
 
     const headerSaveBtn = document.createElement("button");
@@ -313,23 +319,41 @@ function View() {
     taskDiv.classList.add("task-details");
 
     // Title input field
+    const titleContainer = document.createElement("div");
+    titleContainer.classList.add("input-container");
+    const titleLabel = document.createElement("label");
+    titleLabel.innerHTML = "Title:";
+    titleLabel.htmlFor = "title-input";
     const titleInput = document.createElement("input");
+    titleInput.id = "title-input";
     titleInput.value = task.title;
     titleInput.placeholder = "Title";
-    taskDiv.appendChild(titleInput);
+    titleContainer.appendChild(titleLabel);
+    titleContainer.appendChild(titleInput);
+    taskDiv.appendChild(titleContainer);
 
     // Description input field
+    const descriptionContainer = document.createElement("div");
+    descriptionContainer.classList.add("input-container");
+    const descriptionLabel = document.createElement("label");
+    descriptionLabel.innerHTML = "Description:";
+    descriptionLabel.htmlFor = "description-input";
     const descriptionInput = document.createElement("textarea");
+    descriptionInput.id = "description-input";
     descriptionInput.value = task.description || "";
     descriptionInput.placeholder = "Description";
-    taskDiv.appendChild(descriptionInput);
+    descriptionContainer.appendChild(descriptionLabel);
+    descriptionContainer.appendChild(descriptionInput);
+    taskDiv.appendChild(descriptionContainer);
 
     // Due date input field
     const dateContainer = document.createElement("div");
     dateContainer.classList.add("input-container");
     const dueDateLabel = document.createElement("label");
     dueDateLabel.innerHTML = "Due Date:";
+    dueDateLabel.htmlFor = "due-date-input";
     const dueDateInput = document.createElement("input");
+    dueDateInput.id = "due-date-input";
     dueDateInput.type = "date";
     const convertedDate = HTMLdate(task.dueDate);
     dueDateInput.value = convertedDate;
@@ -342,8 +366,10 @@ function View() {
     const priorityContainer = document.createElement("div");
     priorityContainer.classList.add("input-container");
     const priorityLabel = document.createElement("label");
+    priorityLabel.htmlFor = "priority-input";
     priorityLabel.innerHTML = "Priority:";
     const priorityInput = document.createElement("select");
+    priorityInput.id = "priority-input";
     const priorityOptions = ["Low", "Medium", "High"];
 
     priorityOptions.forEach((option) => {
