@@ -257,15 +257,20 @@ function View() {
     projectDetails.tasksDetailsArray.forEach((task) => {
       const newLi = document.createElement("li");
       const newCompButton = document.createElement("button");
-      newCompButton.classList.add("comp-btn");
       const newBtnHoverText = document.createElement("div");
+      newCompButton.classList.add("comp-btn");
+      if (task.completed) {
+        newLi.classList.add("completed");
+        newCompButton.setAttribute("class", "comp-btn-greyed");
+        newBtnHoverText.innerHTML = "⎌"
+      } else {
+        newLi.classList.remove("completed");
+        newBtnHoverText.innerHTML = "✓";
+      }
       newBtnHoverText.classList.add("button-text");
-      newBtnHoverText.innerHTML = "✓";
       newCompButton.appendChild(newBtnHoverText);
       newLi.id = task.id;
-      task.completed
-        ? newLi.classList.add("completed")
-        : newLi.classList.remove("completed");
+
       newLi.innerText = `${task.title}`;
       if (task.description.trim() !== "")
         newLi.innerText = `${task.title} - ${task.description}`;

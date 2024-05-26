@@ -147,7 +147,8 @@ input {
   width: 100%;
 }
 
-.comp-btn {
+.comp-btn,
+.comp-btn-greyed {
   position: relative;
   width: 23px;
   height: 23px;
@@ -159,6 +160,16 @@ input {
   margin-right: 6px;
   transition: all 0.3s ease;
 }
+
+.comp-btn-greyed {
+  color: darkgray;
+  border-width: thin;
+}
+
+.comp-btn-greyed:hover {
+  background: #ffffff;
+}
+
 .comp-btn:hover {
   background: #ace4ae;
 }
