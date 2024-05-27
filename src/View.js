@@ -324,9 +324,6 @@ function View() {
     updateTaskView(owningProject);
   };
 
-  // TO DO: You can click from editing a new task to an existing task and it will leave behind the mostly
-  // empty new task
-
   // Replace existing li DOM element with full task details for editing
   const editTask = (task, isNewTask = false) => {
     const taskOwner = getOwningProjectFromTaskDetails(task);
