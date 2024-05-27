@@ -79,6 +79,7 @@ function View() {
 
     if (owningProject) {
       owningProject.deleteTask(task.id);
+      //console.log(`task ${task.id} deleted`);
       updateTaskView(owningProject);
     } else {
       console.error("Owning project not found for task", task);
@@ -168,6 +169,8 @@ function View() {
         var newProject = Project(`${newHeaderInput.value}`);
         storedProjects.addProject(newProject);
         activeProject = newProject;
+      } else {
+        newHeaderInput.focus();
       }
       updateProjectView();
       if (newProject) updateTaskView(newProject);
@@ -236,7 +239,21 @@ function View() {
     updateProjectView();
   };
 
+  // check a project for empty tasks and delete empty tasks
+  const checkForAndDeleteEmptyTasks = (project, isNewTask = false) => {
+    const projectDetails = project.getProjectDetails().tasksDetailsArray;
+    projectDetails.forEach((task) => {
+      if (task.title.trim() == "" && task.description.trim() == "") {
+        if (!isNewTask) {
+          handleDeleteTask(task);
+        }
+      }
+    });
+  };
+
   const updateTaskView = (project, isNewTask = false) => {
+    checkForAndDeleteEmptyTasks(project, isNewTask);
+
     mainContentDiv.innerHTML = "";
     const projectDetails = project.getProjectDetails();
 
@@ -262,7 +279,7 @@ function View() {
       if (task.completed) {
         newLi.classList.add("completed");
         newCompButton.setAttribute("class", "comp-btn-greyed");
-        newBtnHoverText.innerHTML = "⎌"
+        newBtnHoverText.innerHTML = "⎌"; // not currently used.
       } else {
         newLi.classList.remove("completed");
         newBtnHoverText.innerHTML = "✓";
