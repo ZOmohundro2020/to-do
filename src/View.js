@@ -61,7 +61,7 @@ function View() {
   };
 
   const handleNewTaskBtn = () => {
-    const newTestingTask = Task({
+    const newTask = Task({
       title: "",
       description: "",
       dueDate: undefined,
@@ -69,9 +69,9 @@ function View() {
       notes: "",
       completed: false,
     });
-    const newTask = activeProject.addTask(newTestingTask);
-    newTestingTask.setTaskOwner(newTask);
-    editTask(newTestingTask.getTask(), true);
+    const newTaskProjectId = activeProject.addTask(newTask);
+    newTask.setTaskOwner(newTaskProjectId);
+    editTask(newTask.getTask(), true);
   };
 
   const handleDeleteTask = (task) => {
@@ -115,15 +115,12 @@ function View() {
   const updateProjectView = () => {
     sidebarDiv.innerHTML = "";
 
+    // Create project buttons in sidebar
     storedProjects.getProjects().forEach((element) => {
       const details = element.getProjectDetails();
-      const newProjectDiv = document.createElement("div");
-      newProjectDiv.className = "project";
       const existingProjectBtn = document.createElement("button");
       if (element == activeProject) {
         existingProjectBtn.classList.add("active-project");
-      } else {
-        existingProjectBtn.classList.remove("active-project");
       }
       existingProjectBtn.innerText = details.projectName;
       existingProjectBtn.addEventListener("click", () => {
@@ -133,10 +130,11 @@ function View() {
       sidebarDiv.appendChild(existingProjectBtn);
     });
 
+    // Create a new project button in sidebar
     const newProjectBtn = document.createElement("button");
     newProjectBtn.innerText = "+";
     newProjectBtn.addEventListener("click", () => {
-      handleNewProjectBtn(newProjectBtn);
+      handleNewProjectBtn();
     });
 
     sidebarDiv.appendChild(newProjectBtn);
