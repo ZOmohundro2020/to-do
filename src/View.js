@@ -192,10 +192,11 @@ function View() {
   };
 
   const editProjectHeader = (project, headerDiv) => {
+    const projectName = project.getProjectDetails().projectName;
     const newHeaderDiv = document.createElement("div");
     newHeaderDiv.classList.add("project-title-header");
     const newHeaderInput = document.createElement("input");
-    newHeaderInput.value = `${project.getProjectDetails().projectName}`;
+    newHeaderInput.value = projectName;
     newHeaderDiv.appendChild(newHeaderInput);
     const headerUpdateBtn = document.createElement("button");
     headerUpdateBtn.innerText = "Update";
@@ -204,9 +205,13 @@ function View() {
     });
     newHeaderDiv.appendChild(headerUpdateBtn);
     const headerDeleteProjectBtn = document.createElement("button");
+    headerDeleteProjectBtn.classList.add("delete-project-btn");
     headerDeleteProjectBtn.innerText = "Delete Project";
     headerDeleteProjectBtn.addEventListener("click", () => {
-      handleDeleteProject(project);
+      const response = confirm(
+        `Are you sure you want to delete ${projectName}?`
+      );
+      if (response) handleDeleteProject(project);
     });
     newHeaderDiv.appendChild(headerDeleteProjectBtn);
 
