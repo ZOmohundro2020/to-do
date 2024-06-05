@@ -38,7 +38,37 @@ function Storage() {
     }
   };
 
-  return { testStorage };
+  // Set an item in localStorage
+  function setItem(key, value) {
+    if (storageAvailable("localStorage")) {
+      localStorage.setItem(key, value);
+    } else {
+      console.log("localStorage is not available");
+    }
+  }
+
+  // Get an item from localStorage
+  function getItem(key) {
+    if (storageAvailable("localStorage")) {
+      return localStorage.getItem(key);
+    } else {
+      console.log("localStorage is not available");
+      return null;
+    }
+  }
+
+  // Set an object in localStorage
+  function setObject(key, obj) {
+    setItem(key, JSON.stringify(obj));
+  }
+
+  // Get an object from localStorage
+  function getObject(key) {
+    const item = getItem(key);
+    return item ? JSON.parse(item) : null;
+  }
+
+  return { testStorage, setItem, getItem, setObject, getObject };
 }
 
 export default Storage;

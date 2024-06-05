@@ -57,3 +57,10 @@ view.storeInitialProjects(projectList);
 // localStorage
 const storage = Storage();
 storage.testStorage();
+
+storage.setObject("testTask", testTask.getTask());
+storage.setObject("testStorageObject", {
+  name: "bob",
+  age: 30,
+  email: "bob@bob.bob",
+});
