@@ -3,6 +3,7 @@ import Task from "./Task";
 import Project from "./Project";
 import ProjectList from "./ProjectList";
 import View from "./View";
+import Storage from "./Storage";
 
 const testTask = Task({
   title: "Test Task",
@@ -52,3 +53,7 @@ projectList.addProject(funProject);
 const view = View();
 //view.updateProjectView(projectList);
 view.storeInitialProjects(projectList);
+
+// localStorage
+const storage = Storage();
+storage.testStorage();
