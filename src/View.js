@@ -1,5 +1,6 @@
 import Task from "./Task";
 import Project from "./Project";
+import Storage from "./Storage";
 
 function View() {
   const sidebarDiv = document.getElementById("sidebar");
@@ -8,10 +9,11 @@ function View() {
   const mainContentPlaceholder = `<div id="main-content" class="main-content">
   <h2>To Do</h2>
   <p>Select a Project to get started!</p>
-</div>`;
+  </div>`;
 
   mainContentDiv.innerHTML = mainContentPlaceholder;
 
+  const storage = Storage();
   // Store project state information for access inside of View
   let storedProjects;
   let activeProject;
@@ -166,6 +168,16 @@ function View() {
       if (newHeaderInput.value.trim() != "") {
         var newProject = Project(`${newHeaderInput.value}`);
         storedProjects.addProject(newProject);
+
+        // Store in LocalStorage
+
+        const projectDetails = storedProjects.getProjects().map((project) => {
+          return project.getProjectDetails();
+        });
+        console.log(projectDetails);
+
+        storage.setObject("storedProjects", projectDetails);
+        console.log(storage.getObject("storedProjects"));
         activeProject = newProject;
       } else {
         newHeaderInput.focus();
