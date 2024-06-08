@@ -175,9 +175,9 @@ function View() {
           return project.getProjectDetails();
         });
         console.log(projectDetails);
-
         storage.setObject("storedProjects", projectDetails);
-        console.log(storage.getObject("storedProjects"));
+        //console.log(storage.getObject("storedProjects"));
+
         activeProject = newProject;
       } else {
         newHeaderInput.focus();

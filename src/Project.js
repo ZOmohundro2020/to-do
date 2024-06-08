@@ -1,8 +1,13 @@
-function Project(name) {
-  const generateId = () => Math.random().toString(36).substring(2, 9);
+function Project(name, id = undefined, fromStorage = false) {
+  let projectId;
+
+  if (fromStorage == false) {
+    projectId = Math.random().toString(36).substring(2, 9);
+  } else {
+    projectId = id;
+  }
 
   let projectName = name;
-  const projectId = generateId();
   let projectIsActive = false;
 
   // one array stores task details, one stores the actual task objects themselves
@@ -32,7 +37,7 @@ function Project(name) {
   const setProjectName = (name) => (projectName = name);
 
   // Not currently using this functionality
-  const toggleProjectActive = () => projectIsActive = !projectIsActive;
+  const toggleProjectActive = () => (projectIsActive = !projectIsActive);
 
   const getProjectDetails = () => {
     return {

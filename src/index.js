@@ -47,12 +47,8 @@ addTestTask(testTask, defaultProject);
 addTestTask(testTask2, defaultProject);
 addTestTask(funTask, funProject);
 
-projectList.addProject(defaultProject);
-projectList.addProject(funProject);
-
-const view = View();
-//view.updateProjectView(projectList);
-view.storeInitialProjects(projectList);
+//projectList.addProject(defaultProject);
+//projectList.addProject(funProject);
 
 // localStorage
 const storage = Storage();
@@ -64,3 +60,14 @@ storage.setObject("testStorageObject", {
   age: 30,
   email: "bob@bob.bob",
 });
+
+const Projects = storage.getObject("storedProjects");
+console.log(Projects);
+Projects.forEach((element) => {
+  const newProject = Project(element.projectName, element.projectId, true);
+  projectList.addProject(newProject);
+});
+
+const view = View();
+//view.updateProjectView(projectList);
+view.storeInitialProjects(projectList);
