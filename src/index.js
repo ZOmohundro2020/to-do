@@ -65,6 +65,11 @@ const Projects = storage.getObject("storedProjects");
 console.log(Projects);
 Projects.forEach((element) => {
   const newProject = Project(element.projectName, element.projectId, true);
+  
+  // need to create actual task objects  
+  newProject.setTasks(element.tasksDetailsArray);
+  
+
   projectList.addProject(newProject);
 });
 

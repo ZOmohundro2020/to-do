@@ -31,6 +31,9 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
   };
 
   const toggleCompleted = () => (task.completed = !task.completed);
+  const setCompleted = (isCompleted) => (task.completed = isCompleted);
+
+  const setId = (id) => (task.id = id);
 
   return {
     getTask,
@@ -39,6 +42,8 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
     setTaskOwner,
     getTaskOwner,
     toggleCompleted,
+    setCompleted,
+    setId,
   };
 }
 

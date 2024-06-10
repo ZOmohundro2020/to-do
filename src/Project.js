@@ -1,3 +1,5 @@
+import Task from "./Task";
+
 function Project(name, id = undefined, fromStorage = false) {
   let projectId;
 
@@ -11,8 +13,8 @@ function Project(name, id = undefined, fromStorage = false) {
   let projectIsActive = false;
 
   // one array stores task details, one stores the actual task objects themselves
-  const tasksDetailsArray = [];
-  const tasksObjectsArray = [];
+  let tasksDetailsArray = [];
+  let tasksObjectsArray = [];
 
   const addTask = (newTask) => {
     tasksDetailsArray.push(newTask.getTask());
@@ -24,6 +26,27 @@ function Project(name, id = undefined, fromStorage = false) {
     const result = tasksDetailsArray.findIndex((obj) => obj["id"] === taskId);
     tasksDetailsArray.splice(result, 1);
     tasksObjectsArray.splice(result, 1);
+  };
+
+  // Used for pulling in tasks from localstorage
+  const setTasks = (tasksArray) => {
+    tasksDetailsArray = tasksArray;
+    tasksArray.forEach((element) => {
+      console.log(element);
+      const newTask = new Task({
+        title: element.title,
+        description: element.description,
+        dueDate: element.dueDate || new Date(),
+        priority: element.priority,
+        notes: element.notes,
+      });
+      newTask.setTaskOwner(element.owner);
+      newTask.setCompleted(element.completed);
+      newTask.setId(element.id);
+
+      tasksObjectsArray.push(newTask);
+    });
+    console.log("taskObjectsArray after setTasks: ", tasksObjectsArray);
   };
 
   const getTasksDetails = () => tasksDetailsArray;
@@ -44,6 +67,7 @@ function Project(name, id = undefined, fromStorage = false) {
       projectName,
       projectId,
       projectIsActive, // Not currently using this
+      tasksObjectsArray,
       tasksDetailsArray,
     };
   };
@@ -57,6 +81,7 @@ function Project(name, id = undefined, fromStorage = false) {
     setProjectName,
     toggleProjectActive,
     getProjectDetails,
+    setTasks,
   };
 }
 
