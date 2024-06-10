@@ -81,8 +81,8 @@ function View() {
 
     if (owningProject) {
       owningProject.deleteTask(task.id);
-      //console.log(`task ${task.id} deleted`);
       updateTaskView(owningProject);
+      updateLocalStorage();
     } else {
       console.error("Owning project not found for task", task);
     }
@@ -112,6 +112,7 @@ function View() {
       priority: taskInputs.priority,
     });
     updateTaskView(owningProject);
+    updateLocalStorage();
   };
 
   const updateProjectView = () => {
@@ -142,6 +143,14 @@ function View() {
     sidebarDiv.appendChild(newProjectBtn);
   };
 
+  // Store in LocalStorage
+  const updateLocalStorage = () => {
+    const projectDetails = storedProjects.getProjects().map((project) => {
+      return project.getProjectDetails();
+    });
+    storage.setObject("storedProjects", projectDetails);
+  };
+
   const handleNewProjectBtn = () => {
     const newHeaderDiv = document.createElement("div");
     newHeaderDiv.classList.add("project-title-header");
@@ -168,16 +177,7 @@ function View() {
       if (newHeaderInput.value.trim() != "") {
         var newProject = Project(`${newHeaderInput.value}`);
         storedProjects.addProject(newProject);
-
-        // Store in LocalStorage
-
-        const projectDetails = storedProjects.getProjects().map((project) => {
-          return project.getProjectDetails();
-        });
-        console.log(projectDetails);
-        storage.setObject("storedProjects", projectDetails);
-        //console.log(storage.getObject("storedProjects"));
-
+        updateLocalStorage();
         activeProject = newProject;
       } else {
         newHeaderInput.focus();
@@ -223,7 +223,10 @@ function View() {
       const response = confirm(
         `Are you sure you want to delete ${projectName}?`
       );
-      if (response) handleDeleteProject(project);
+      if (response) {
+        handleDeleteProject(project);
+        updateLocalStorage;
+      }
     });
     newHeaderDiv.appendChild(headerDeleteProjectBtn);
 
@@ -235,6 +238,7 @@ function View() {
     project.setProjectName(editProjectInput);
     updateProjectView();
     updateTaskView(project);
+    updateLocalStorage();
   };
 
   const handleDeleteProject = (project) => {
@@ -252,6 +256,7 @@ function View() {
     }
 
     updateProjectView();
+    updateLocalStorage();
   };
 
   // check a project for empty tasks and delete empty tasks
@@ -261,6 +266,7 @@ function View() {
       if (task.title.trim() == "" && task.description.trim() == "") {
         if (!isNewTask) {
           handleDeleteTask(task);
+          updateLocalStorage();
         }
       }
     });
@@ -337,6 +343,7 @@ function View() {
     const actualTaskObject = owningProject.getTask(task.id);
     actualTaskObject.toggleCompleted();
     updateTaskView(owningProject);
+    updateLocalStorage();
   };
 
   // Replace existing li DOM element with full task details for editing
@@ -446,6 +453,7 @@ function View() {
       } else if (isNewTask) {
         handleDeleteTask(task);
       }
+      updateLocalStorage();
     });
 
     buttonContainer.appendChild(saveTaskBtn);

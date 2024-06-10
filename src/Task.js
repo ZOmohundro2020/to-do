@@ -18,6 +18,7 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
 
   const getTask = () => task;
   const getTaskId = () => task.id;
+  const setTaskId = (id) => (task.id = id);
 
   const getTaskOwner = () => task.owner;
 
@@ -27,13 +28,11 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
     if (dueDate !== undefined) task.dueDate = dueDate;
     if (priority !== undefined) task.priority = priority;
     if (notes !== undefined) task.notes = notes;
-    console.log(`${title} edited`);
+    //console.log(`${title} edited`);
   };
 
   const toggleCompleted = () => (task.completed = !task.completed);
   const setCompleted = (isCompleted) => (task.completed = isCompleted);
-
-  const setId = (id) => (task.id = id);
 
   return {
     getTask,
@@ -43,7 +42,7 @@ function Task({ title, description, dueDate = new Date(), priority, notes }) {
     getTaskOwner,
     toggleCompleted,
     setCompleted,
-    setId,
+    setTaskId,
   };
 }
 

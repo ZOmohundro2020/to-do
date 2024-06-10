@@ -34,45 +34,33 @@ const funTask = Task({
 
 const projectList = ProjectList();
 
-const defaultProject = Project("Default");
-const funProject = Project("Fun Project");
-
-const addTestTask = (task, project) => {
-  const taskToAdd = task;
-  const taskOwner = project.addTask(taskToAdd);
-  task.setTaskOwner(taskOwner);
-};
-
-addTestTask(testTask, defaultProject);
-addTestTask(testTask2, defaultProject);
-addTestTask(funTask, funProject);
-
-//projectList.addProject(defaultProject);
-//projectList.addProject(funProject);
-
 // localStorage
 const storage = Storage();
-storage.testStorage();
-
-storage.setObject("testTask", testTask.getTask());
-storage.setObject("testStorageObject", {
-  name: "bob",
-  age: 30,
-  email: "bob@bob.bob",
-});
-
+const isStorageAvailable = storage.testStorage();
 const Projects = storage.getObject("storedProjects");
-console.log(Projects);
-Projects.forEach((element) => {
-  const newProject = Project(element.projectName, element.projectId, true);
-  
-  // need to create actual task objects  
-  newProject.setTasks(element.tasksDetailsArray);
-  
+if (isStorageAvailable == true && Projects) {
+  Projects.forEach((element) => {
+    const newProject = Project(element.projectName, element.projectId, true);
+    newProject.setTasks(element.tasksDetailsArray);
+    projectList.addProject(newProject);
+  });
+} else {
+  const defaultProject = Project("Default");
+  const funProject = Project("Fun Project");
 
-  projectList.addProject(newProject);
-});
+  const addTestTask = (task, project) => {
+    const taskToAdd = task;
+    const taskOwner = project.addTask(taskToAdd);
+    task.setTaskOwner(taskOwner);
+  };
+
+  addTestTask(testTask, defaultProject);
+  addTestTask(testTask2, defaultProject);
+  addTestTask(funTask, funProject);
+
+  projectList.addProject(defaultProject);
+  projectList.addProject(funProject);
+}
 
 const view = View();
-//view.updateProjectView(projectList);
 view.storeInitialProjects(projectList);

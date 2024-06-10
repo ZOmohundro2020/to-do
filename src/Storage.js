@@ -30,11 +30,11 @@ function Storage() {
 
   const testStorage = () => {
     if (storageAvailable("localStorage")) {
-      // Yippee! We can use localStorage awesomeness
-      console.log("storage available");
-    } else {
-      // Too bad, no localStorage for u
-      console.log("no storage");
+      //console.log("storage available");
+      return true;
+    } else {      
+      //console.log("no storage");
+      return false;
     }
   };
 
