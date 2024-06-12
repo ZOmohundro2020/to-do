@@ -144,6 +144,7 @@ function View() {
     // Create a new project button in sidebar
     const newProjectBtn = document.createElement("button");
     newProjectBtn.innerText = "+";
+    newProjectBtn.classList.add("new-project-button");
     newProjectBtn.addEventListener("click", () => {
       handleNewProjectBtn();
     });
