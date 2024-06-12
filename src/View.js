@@ -6,14 +6,22 @@ function View() {
   const sidebarDiv = document.getElementById("sidebar");
   const mainContentDiv = document.getElementById("main-content");
 
-  const mainContentPlaceholder = `<div id="main-content" class="main-content">
-  <h2>To Do</h2>
-  <p>Select a Project to get started!</p>
+  const mainContentPlaceholder = `
+  <div id="main-content" class="main-content">
+    <h2>To Do</h2>
+    <p>Select a Project to get started!</p>
   </div>`;
-
   mainContentDiv.innerHTML = mainContentPlaceholder;
 
+  // Local Storage
   const storage = Storage();
+  const updateLocalStorage = () => {
+    const projectDetails = storedProjects.getProjects().map((project) => {
+      return project.getProjectDetails();
+    });
+    storage.setObject("storedProjects", projectDetails);
+  };
+
   // Store project state information for access inside of View
   let storedProjects;
   let activeProject;
@@ -141,14 +149,6 @@ function View() {
     });
 
     sidebarDiv.appendChild(newProjectBtn);
-  };
-
-  // Store in LocalStorage
-  const updateLocalStorage = () => {
-    const projectDetails = storedProjects.getProjects().map((project) => {
-      return project.getProjectDetails();
-    });
-    storage.setObject("storedProjects", projectDetails);
   };
 
   const handleNewProjectBtn = () => {
