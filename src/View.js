@@ -209,6 +209,7 @@ function View() {
     newHeaderDiv.classList.add("project-title-header");
     const newHeaderInput = document.createElement("input");
     newHeaderInput.value = projectName;
+    newHeaderInput.id = "project-name-input";
     newHeaderDiv.appendChild(newHeaderInput);
     const headerUpdateBtn = document.createElement("button");
     headerUpdateBtn.innerText = "Update";
